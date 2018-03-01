@@ -1,4 +1,5 @@
 .build/
 .env
+localdb/
 node_modules/
 npm-debug.*
