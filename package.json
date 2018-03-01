@@ -1,0 +1,43 @@
+{
+  "name": "@stormgle/user-services",
+  "version": "1.0.0",
+  "description": "Service provides user authentication utilities",
+  "main": "dist/exporter.js",
+  "scripts": {
+    "setup": "node scripts/setup",
+    "clean": "rm -rf ./.build",
+    "clean:local": "rm -rf ./.build/local",
+    "build:local": "npm run clean:local && webpack --config webpack.config.local.js",
+    "start:local": "nodemon src/signup.local.js",
+    "test": "concurrently \"node src/signup.local.js\"  \"mocha test/signup.test.js\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stormgle/user-services"
+  },
+  "keywords": [
+    "user",
+    "authentication"
+  ],
+  "author": "duongtdn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stormgle/user-services/issues"
+  },
+  "homepage": "https://github.com/stormgle/user-services#readme",
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "mocha": "^5.0.1",
+    "nodemon": "^1.17.1",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.9",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.1",
+    "uuid": "^3.2.1"
+  }
+}
