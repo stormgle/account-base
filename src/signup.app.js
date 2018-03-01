@@ -9,6 +9,7 @@ const uuid = require('uuid/v1');
 const { serializeUser } = require('./serializer');
 const { generateToken } = require('./token');
 
+const { USERS, POLICY } = require('userdb-api');
 
 const app = express();
 
@@ -19,29 +20,6 @@ app
 const keys = {
   profile: process.env.KEY_PROFILE
 };
-
-/* simulate USERS API */
-const POLICY = {
-  get(role, callback) {
-    callback(null,{'profile': true});
-  }
-};
-
-const userDB = {}
-const USERS = {
-  findUser({ username = null, uid = null }, callback) {
-    if (username && userDB[username]) {
-      callback(null, userDB[username]);
-    } else {
-      callback(null, null);
-    }
-  },
-  addUser(user, callback) {
-    userDB[user.username] = user;
-    callback(null, user)
-  }
-}
-/* end simulate api */
 
 function checkUser (req, res, next) {
   const username = req.body.username;
