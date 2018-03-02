@@ -1,7 +1,14 @@
 "use strict"
 const PORT = 3001;
 
-const app = require('./signup.app');
+const { app, userdb } = require('./signup.app');
+
+const dynamodb = require('@stormgle/userdb-dynamodb')
+
+userdb.use( dynamodb({
+  region : 'us-west-2', 
+  endpoint : 'http://localhost:8000'}
+));
 
 const httpServer = require('http').createServer(app);
 

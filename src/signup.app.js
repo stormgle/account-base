@@ -9,8 +9,9 @@ const uuid = require('uuid/v1');
 const { serializeUser } = require('./serializer');
 const { generateToken } = require('./token');
 
-const { USERS, POLICY } = require('userdb-api');
+const UserDB = require('@stormgle/userdb-api');
 
+const userdb = new UserDB();
 const app = express();
 
 app
@@ -23,7 +24,7 @@ const keys = {
 
 function checkUser (req, res, next) {
   const username = req.body.username;
-  USERS.findUser({ username }, (err, user) => {
+  userdb.findUser({ username }, (err, user) => {
       if (err) {
         res.status(500).json({error: 'Internal error'});
       } else {
@@ -39,7 +40,7 @@ function checkUser (req, res, next) {
 function createUser (req, res, next) {
   const { username, password } = req.body;
   
-  POLICY.get('user', (err, policies) => {
+  userdb.getPolicy('user', (err, policies) => {
 
     if (err) {
       res.status(500).json({error: 'Internal error'});
@@ -59,7 +60,7 @@ function createUser (req, res, next) {
       policies
     }
 
-    USERS.addUser( user, (err, user) => {
+    userdb.addUser( user, (err, user) => {
         if (err) {
           res.status(500).json({error: 'Internal error'});
         } else {
@@ -84,4 +85,4 @@ app.post('/signup',
   respond
 );
 
-module.exports = app;
+module.exports = { app, userdb }
