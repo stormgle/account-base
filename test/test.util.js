@@ -2,6 +2,9 @@
 
 const http = require('http')
 
+const DynamoDbLocal = require('dynamodb-local');
+const UserDB = require('@stormgle/userdb-api');
+
 class Connect {
   constructor({hostname, port, path}) {
 
@@ -94,4 +97,40 @@ class Connect {
 
 }
 
-module.exports = Connect;
+const db = {
+  launch(done) {
+    /* start dynamodb-local */
+    DynamoDbLocal.configureInstaller({
+      installPath: './localdb',
+      downloadUrl: 'https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz'
+    });
+
+    DynamoDbLocal.launch(process.env.DB_PORT, null, ['shareDb'])
+    
+  },
+
+  waitForReady(done) {
+    /* check when db is up and run */
+    const userdb = new UserDB();
+    userdb.use(require('@stormgle/userdb-dynamodb')(
+      {
+        region : 'us-west-2', 
+        endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
+      },
+      (err) => {
+        if (err) {
+          console.log('Failed to init local db')
+          done(err);
+        } else {
+          done();
+        }
+      }
+    )) 
+  },
+
+  close() {
+    DynamoDbLocal.stop(process.env.DB_PORT);
+  }
+}
+
+module.exports = { Connect, db }
