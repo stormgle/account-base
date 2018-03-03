@@ -24,11 +24,16 @@ const keys = {
 
 function checkUser (req, res, next) {
   const username = req.body.username;
-  userdb.findUser({ username }, (err, user) => {
+  const role = 'user'
+  if (!username) {
+    res.status(403).json({error: 'Invalidated Username or Password'});
+    return;
+  }
+  userdb.findUser({ username, role }, (err, user) => {
       if (err) {
         res.status(500).json({error: 'Internal error'});
       } else {
-        if (user) {
+        if (user && Object.keys(user).length > 0) {
           res.status(403).json({error: 'Email is already registered'});
         } else {
           next();
@@ -61,7 +66,7 @@ function createUser (req, res, next) {
       profile: { email: [username] }
     }
 
-    userdb.addUser( user, (err, user) => {
+    userdb.createUser( user, (err, user) => {
         if (err) {
           res.status(500).json({error: 'Internal error'});
         } else {

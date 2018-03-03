@@ -5,7 +5,7 @@ const { app, userdb } = require('./signup.app');
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
 
-/* add dynamodb middleware to userdb-api */
+/* add dynamodb driver to userdb-api */
 userdb.use( dynamodb(
   {
     region : 'us-west-2', 

@@ -98,7 +98,8 @@ class Connect {
 }
 
 const db = {
-  launch(done) {
+
+  launch() {
     /* start dynamodb-local */
     DynamoDbLocal.configureInstaller({
       installPath: './localdb',
@@ -109,12 +110,12 @@ const db = {
     
   },
 
-  waitForReady(done) {
+  start(done) {
     /* check when db is up and run */
     const userdb = new UserDB();
     userdb.use(require('@stormgle/userdb-dynamodb')(
       {
-        region : 'us-west-2', 
+        region : 'us-west-1', 
         endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
       },
       (err) => {
@@ -122,7 +123,13 @@ const db = {
           console.log('Failed to init local db')
           done(err);
         } else {
-          done();
+          userdb.createTable(function(err, data) {
+            if (err) {
+              done(err);
+            } else {
+              done()
+            }
+          })
         }
       }
     )) 

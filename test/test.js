@@ -11,7 +11,7 @@ describe('test user-services api', function() {
 
   before(function(done) {
     this.timeout(500000);
-    db.waitForReady(done);
+    db.start(done);
   })
 
   after(function() {

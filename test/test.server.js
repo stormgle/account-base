@@ -13,7 +13,7 @@ class TestServer {
     const { app, userdb } = require(`../src/${api}.app`);
     userdb.use( dynamodb(
       {
-        region : 'us-west-2', 
+        region : 'us-west-1', 
         endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
       },
       (err) => {
@@ -24,12 +24,6 @@ class TestServer {
           const PORT = process.env[`POST_${api.toUpperCase()}`];
           this.httpServer = require('http').createServer(app);
           this.httpServer.listen(PORT);
-  
-          app.post('/close', (res, req) => {
-            httpServer.close();
-            // process.exit(0);
-          })
-  
           done();
         }
       }
