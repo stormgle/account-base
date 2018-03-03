@@ -54,10 +54,11 @@ function createUser (req, res, next) {
 
     const user = { 
       username, 
+      role: 'user',
       uid: uuid(), 
       login: { password }, 
-      email: username, 
-      policies
+      policies,
+      profile: { email: [username] }
     }
 
     userdb.addUser( user, (err, user) => {

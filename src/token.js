@@ -9,8 +9,7 @@ function generateToken(keys) {
     for(let policy in policies) {    
       if (keys[policy]) {
         const token = jwt.sign({
-          // uid: req.user.uid,
-          username: req.user.username
+          uid: req.user.uid,
         }, keys[policy], {
           expiresIn: "14 days"
         });
