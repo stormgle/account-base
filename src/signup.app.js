@@ -6,8 +6,8 @@ const express = require('express')
 const bodyParser = require('body-parser');
 
 const uuid = require('uuid/v1');
-const { serializeUser } = require('./serializer');
-const { generateToken } = require('./token');
+const { serializeUser } = require('./lib/serializer');
+const { generateToken } = require('./lib/token');
 
 const UserDB = require('@stormgle/userdb-api');
 
