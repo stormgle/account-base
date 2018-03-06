@@ -60,7 +60,7 @@ function createUser (req, res, next) {
 }
 
 app.post('/signup', 
-  checkIfNewUser(userdb, 'user'),
+  checkIfNewUser(userdb),
   createUser,
   generateToken(keys),
   serializeUser,
