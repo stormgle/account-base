@@ -10,6 +10,7 @@ const UserDB = require('@stormgle/userdb-api');
 const uuid = require('uuid/v1');
 const { serializeUser } = require('./lib/serializer');
 const { generateToken } = require('./lib/token');
+const { checkIfNewUser } = require('./lib/check');
 
 const userdb = new UserDB();
 const app = express();
@@ -21,26 +22,6 @@ app
 const keys = {
   profile: process.env.KEY_PROFILE
 };
-
-function checkUser (req, res, next) {
-  const username = req.body.username;
-  const role = 'user'
-  if (!username) {
-    res.status(403).json({error: 'Invalidated Username or Password'});
-    return;
-  }
-  userdb.findUser({ username, role }, (err, user) => {
-      if (err) {
-        res.status(500).json({error: 'Internal error'});
-      } else {
-        if (user && Object.keys(user).length > 0) {
-          res.status(403).json({error: 'Email is already registered'});
-        } else {
-          next();
-        }
-      }
-    })
-}
 
 function createUser (req, res, next) {
   const { username, password } = req.body;
@@ -84,7 +65,7 @@ function respond(req, res) {
 }
 
 app.post('/signup', 
-  checkUser,
+  checkIfNewUser(userdb, 'user'),
   createUser,
   generateToken(keys),
   serializeUser,
