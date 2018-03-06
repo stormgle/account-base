@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const UserDB = require('@stormgle/userdb-api');
 
 const uuid = require('uuid/v1');
-const { serializeUser } = require('./lib/serializer');
+const { serializeUser, success } = require('./lib/serializer');
 const { generateToken } = require('./lib/token');
 const { checkIfNewUser } = require('./lib/check');
 
@@ -59,17 +59,12 @@ function createUser (req, res, next) {
 
 }
 
-
-function respond(req, res) {
-  res.status(200).json({user: req.user, tokens: req.tokens});
-}
-
 app.post('/signup', 
   checkIfNewUser(userdb, 'user'),
   createUser,
   generateToken(keys),
   serializeUser,
-  respond
+  success
 );
 
 module.exports = { app, userdb }

@@ -1,6 +1,6 @@
 "use strict"
 
-function serializeUser (req, res, next) {
+function serializeUser(req, res, next) {
   delete req.user.uid
   delete req.user.login
   delete req.user.policies
@@ -12,4 +12,8 @@ function serializeUser (req, res, next) {
   next();
 }
 
-module.exports = { serializeUser }
+function success(req, res) {
+  res.status(200).json({user: req.user, tokens: req.tokens});
+}
+
+module.exports = { serializeUser, success }
