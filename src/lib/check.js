@@ -32,7 +32,7 @@ function checkIfUserExist(userdb) {
     }
     userdb.findUser({ username, role }, (error, user) => {
         if (error) {
-          res.status(500).json(error);
+          res.status(403).json(error);
         } else {
           if (user && Object.keys(user).length > 0) {
             req.user = user;
