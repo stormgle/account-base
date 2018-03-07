@@ -3,6 +3,7 @@
 require('dotenv').config()
 
 const testSignup = require('./signup.test')
+const testLogin = require('./login.test')
 const { db } = require('./test.util')
 
 db.launch();
@@ -20,5 +21,7 @@ describe('test user-services api', function() {
 
   /* test api */
   testSignup()
+
+  testLogin()
 
 })
