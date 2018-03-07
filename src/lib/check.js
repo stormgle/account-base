@@ -30,9 +30,9 @@ function checkIfUserExist(userdb) {
       res.status(403).json({error: 'Invalidated Username or Password'});
       return;
     }
-    userdb.findUser({ username, role }, (err, user) => {
-        if (err) {
-          res.status(500).json({error: 'Internal error'});
+    userdb.findUser({ username, role }, (error, user) => {
+        if (error) {
+          res.status(500).json(error);
         } else {
           if (user && Object.keys(user).length > 0) {
             req.user = user;
