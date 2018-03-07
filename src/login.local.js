@@ -1,6 +1,6 @@
 "use strict"
 
-const { app, userdb } = require('./loginByPassword.app');
+const { app, userdb } = require('./login.app');
 
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
