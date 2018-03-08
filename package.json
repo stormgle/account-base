@@ -2,14 +2,18 @@
   "name": "@stormgle/user-services",
   "version": "1.0.0",
   "description": "Service provides user authentication utilities",
-  "main": "dist/exporter.js",
+  
   "scripts": {
     "setup": "node scripts/setup",
     "start:db": "cd localdb && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -port 3001 -sharedDb",
+    "db:new": "concurrently \"npm run start:db\" \"node scripts/createTable.js\" ",
+    "db:drop": "concurrently \"npm run start:db\" \"node scripts/dropTable.js\" ",
+    "db:reset": "concurrently \"npm run start:db\" \"node scripts/resetTable.js\" ",
     "clean": "rm -rf ./.build",
     "clean:local": "rm -rf ./.build/local",
     "build:local": "npm run clean:local && webpack --config webpack.config.local.js",
-    "start:local": "concurrently \"npm run start:db\" \"nodemon src/signup.local.js\" \"nodemon src/loginByPassword.local.js\"",
+    "start:local": "concurrently \"npm run start:db\" \"nodemon src/signup.local.js\" \"nodemon src/login.local.js\" \"nodemon src/update/profile.local.js\"",
+    "start:update": "concurrently \"npm run start:db\" \"nodemon src/update/profile.local.js\"",
     "test": "mocha test/test.js"
   },
   "repository": {
@@ -37,11 +41,12 @@
     "@stormgle/userdb-dynamodb": "^1.0.0"
   },
   "dependencies": {
+    "@stormgle/userdb-api": "^1.0.0",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
+    "express-jwt": "^5.3.0",
     "jsonwebtoken": "^8.1.1",
-    "uuid": "^3.2.1",
-    "@stormgle/userdb-api": "^1.0.0"
+    "uuid": "^3.2.1"
   }
 }
