@@ -21,4 +21,29 @@ function generateToken(keys) {
   }
 }
 
-module.exports = { generateToken }
+function verifyToken(key) {
+  return function(req, res, next) {
+    const bearerHeader = req.headers['authorization'];
+    if (typeof bearerHeader === 'undefined') {
+      console.log(req.headers)
+      res.status(403).json({error: 'unauthorized'});
+      return
+    }
+
+    const bearer = bearerHeader.split(" ");
+    const token = bearer[1];
+    req.token = token;
+
+    jwt.verify(token, key, function(err, decoded) {
+      if (err) {
+        res.status(403).json({error: 'unauthorized'});
+      } else {
+        req.user = decoded;
+        next();
+      }
+    });
+    
+  }
+}
+
+module.exports = { generateToken, verifyToken }
