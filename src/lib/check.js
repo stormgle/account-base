@@ -8,11 +8,11 @@ function checkIfNewUser(userdb) {
       res.status(403).json({error: 'Invalidated Username or Password'});
       return;
     }
-    userdb.findUser({ username, role }, (err, user) => {
+    userdb.queryUser({username}, (err, user) => {
         if (err) {
-          res.status(500).json({error: 'Internal error'});
+          res.status(403).json({error: 'Access database failed'});
         } else {
-          if (user && Object.keys(user).length > 0) {
+          if (user) {
             res.status(403).json({error: 'Email is already registered'});
           } else {
             next();
@@ -30,11 +30,11 @@ function checkIfUserExist(userdb) {
       res.status(403).json({error: 'Invalidated Username or Password'});
       return;
     }
-    userdb.findUser({ username, role }, (error, user) => {
+    userdb.queryUser({username}, (error, user) => {
         if (error) {
           res.status(403).json(error);
         } else {
-          if (user && Object.keys(user).length > 0) {
+          if (user) {
             req.user = user;
             next();
           } else {

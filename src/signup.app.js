@@ -40,7 +40,7 @@ function createUser (req, res, next) {
 
     const user = { 
       username, 
-      role: 'user',
+      role: ['user'],
       uid: uuid(), 
       login: { password }, 
       policies,
