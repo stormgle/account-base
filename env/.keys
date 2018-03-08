@@ -1,2 +1,4 @@
 
-KEY_PROFILE=/* this is secret key for profile service */
+KEY_ACCOUNT=/* this is secret key for user service - role user */
+
+
