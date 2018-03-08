@@ -20,7 +20,7 @@ app
   .use(bodyParser.urlencoded({ extended: false }))
 
 const keys = {
-  account: process.env.KEY_PROFILE
+  account: process.env.KEY_ACCOUNT
 };
 
 function createUser (req, res, next) {

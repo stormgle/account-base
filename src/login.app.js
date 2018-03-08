@@ -16,7 +16,7 @@ const userdb = new UserDB();
 const app = express();
 
 const keys = {
-  account: process.env.KEY_PROFILE
+  account: process.env.KEY_ACCOUNT
 };
 
 app
