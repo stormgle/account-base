@@ -16,16 +16,19 @@ const userdb = new UserDB();
 function success(req, res) {
   const uid = req.user.uid;
   const profile = req.body.profile;
-  userdb.get
-  userdb.update(uid, { profile }, (err, data) => {
-    if (err) {
-      console.log(err)
-      res.status(403).json(err)
-    } else {
-      console.log(data)
-      res.status(200).json({status: 'success'});
-    }
-  })
+  if (typeof profile === 'object' && Object.keys(profile).length > 0) {
+    userdb.update(uid, { profile }, (err, data) => {
+      if (err) {
+        console.log(err)
+        res.status(403).json(err)
+      } else {
+        res.status(200).json({status: 'updated success'});
+      }
+    })
+  } else {
+    res.status(200).json({status: 'not update'});
+  }
+  
 }
 
 const app = express();
