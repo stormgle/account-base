@@ -26,7 +26,7 @@ function success(req, res) {
       }
     })
   } else {
-    res.status(200).json({status: 'not update'});
+    res.status(304).json({status: 'not update'});
   }
   
 }
