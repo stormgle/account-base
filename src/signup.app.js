@@ -20,13 +20,17 @@ app
   .use(bodyParser.urlencoded({ extended: false }))
 
 const keys = {
-  account: process.env.KEY_ACCOUNT
+  account: process.env.KEY_ACCOUNT,
+  super: process.env.KEY_SUPER
 };
 
 function createUser (req, res, next) {
   const { username, password } = req.body;
-  
-  userdb.getPolicy('user', (err, policies) => {
+
+  const roles = (username === 'admin' && password === process.env.ADMIN_PASSWORD) ? 
+                  ['admin', 'user'] : ['user']
+
+  userdb.getPolicy(roles, (err, policies) => {
 
     if (err) {
       res.status(500).json({error: 'Internal error'});
@@ -40,7 +44,7 @@ function createUser (req, res, next) {
 
     const user = { 
       username, 
-      role: ['user'],
+      roles: roles,
       uid: uuid(), 
       login: { password }, 
       policies,
