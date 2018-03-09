@@ -44,22 +44,6 @@ class Connect {
     },100);
   }
 
-  closeServer(done) {
-    const conn = {};
-    for (let prop in this.conn) {
-      conn[prop] = this.conn[prop];
-    }
-    conn.path = '/close';
-    const req = http.request(conn, (res) => {
-      res.setEncoding('utf8');
-      res.on('data', (chunk) => {});
-      res.on('end', () => {});
-      })
-      req.on('error', (e) => {});
-      req.write("{}");
-      req.end();
-  }
-
   fire(event) {
     if (this.eventHandlers[event]) {
       this.eventHandlers[event].forEach((handler) => {
