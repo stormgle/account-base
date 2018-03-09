@@ -10,7 +10,7 @@ function testLogin() {
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.POST_LOGIN,
+      port: process.env.PORT_LOGIN,
       path: '/login'
     });
   

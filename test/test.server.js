@@ -21,10 +21,11 @@ class TestServer {
           console.log('Failed to init local db')
           done(err);
         } else {
-          const PORT = process.env[`POST_${api.toUpperCase()}`];
+          const portName = api.replace('/','_');
+          const PORT = process.env[`PORT_${portName.toUpperCase()}`];
           this.httpServer = require('http').createServer(app);
           this.httpServer.listen(PORT);
-          done();
+          done && done();
         }
       }
     ));

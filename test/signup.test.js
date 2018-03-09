@@ -10,7 +10,7 @@ function testSignup () {
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.POST_SIGNUP,
+      port: process.env.PORT_SIGNUP,
       path: '/signup'
     });
   

@@ -52,23 +52,35 @@ class Connect {
     }
   }
 
-  request(data, done) {
+  request(data, bearer, done) {
+
+    if (typeof bearer === 'function') {
+      done = bearer;
+      bearer = null;
+    }
+
     const req = http.request(this.conn, (res) => {
       const ret = {
         status: res.statusCode,
         body: ''
       };
       // console.log(`STATUS: ${res.statusCode}`)
-      //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      // console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
       res.setEncoding('utf8');
       res.on('data', (chunk) => {
         ret.body += chunk;
       });
       res.on('end', () => {
-        ret.body = JSON.parse(ret.body);
+        if (ret.body) {
+          ret.body = JSON.parse(ret.body);
+        }   
         done(null, ret)
       });
     })
+
+    if (bearer) {
+      req.setHeader('Authorization',  `Bearer ${bearer}`);
+    }
     
     req.on('error', (e) => {
       console.error(`problem with request: ${e.message}`);
