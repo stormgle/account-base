@@ -17,7 +17,7 @@ userdb.use( dynamodb(
       console.log(err)
     } else {
       const httpServer = require('http').createServer(app);
-      const PORT = process.env.POST_LOGIN;
+      const PORT = process.env.PORT_LOGIN;
       httpServer.listen(PORT)
       console.log(`#Login service is running at localhost:${PORT}\n`);
     }

@@ -16,7 +16,7 @@ userdb.use(dynamodb(
       console.log(err)
     } else {
       const httpServer = require('http').createServer(app);
-      const PORT = process.env.POST_UPDATE_PROFILE;
+      const PORT = process.env.PORT_UPDATE_PROFILE;
       httpServer.listen(PORT)
       console.log(`#Update/Profile service is running at localhost:${PORT}\n`);
     }
