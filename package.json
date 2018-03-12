@@ -12,7 +12,7 @@
     "clean": "rm -rf ./.build",
     "clean:local": "rm -rf ./.build/local",
     "build:local": "npm run clean:local && webpack --config webpack.config.local.js",
-    "start:local": "concurrently \"npm run start:db\" \"nodemon src/signup.local.js\" \"nodemon src/login.local.js\" \"nodemon src/update/profile.local.js\" \"nodemon src/update/password.local.js\"",
+    "start:local": "concurrently \"npm run start:db\" \"nodemon src/signup.local.js\" \"nodemon src/login.local.js\" \"nodemon src/update/profile.local.js\" \"nodemon src/update/password.local.js\" \"nodemon src/update/user.local.js\" \"nodemon src/query/user.local.js\"",
     "test": "mocha test/test.js"
   },
   "repository": {
