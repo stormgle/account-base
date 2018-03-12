@@ -58,6 +58,8 @@ function testUpdateProfile() {
           else if (data) {
             if (data.status === 200) {
               done();
+            } else {
+              done({error: `expect return status code 200, but received ${data.status}`})
             }
           } else {
             done({error: 'failed to update user profile'})
