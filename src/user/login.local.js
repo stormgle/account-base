@@ -1,11 +1,12 @@
 "use strict"
 
-const { app, userdb } = require('./password.app');
+const { app, userdb } = require('./login.app');
 
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
+
 /* add dynamodb driver to userdb-api */
-userdb.use(dynamodb(
+userdb.use( dynamodb(
   {
     region : 'us-west-2', 
     endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
@@ -16,9 +17,10 @@ userdb.use(dynamodb(
       console.log(err)
     } else {
       const httpServer = require('http').createServer(app);
-      const PORT = process.env.PORT_UPDATE_PASSWORD;
+      const PORT = process.env.PORT_USER_LOGIN;
       httpServer.listen(PORT)
-      console.log(`#Update/Password service is running at localhost:${PORT}\n`);
+      console.log(`#Login service is running at localhost:${PORT}\n`);
     }
   }
 ));
+

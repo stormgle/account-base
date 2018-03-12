@@ -7,17 +7,18 @@ const bodyParser = require('body-parser');
 
 const UserDB = require('@stormgle/userdb-api');
 
-const { verifyToken } = require('../lib/token')
+const { verifyToken } = require('../../lib/token')
 
-const secret = process.env.KEY_ACCOUNT;
+const secret = process.env.KEY_SUPER;
 
 const userdb = new UserDB();
 
-function success(req, res) {
+function updateUser(req, res) {
   const uid = req.user.uid;
-  const profile = req.body.profile;
-  if (typeof profile === 'object' && Object.keys(profile).length > 0) {
-    userdb.update(uid, { profile }, (err, data) => {
+  const update = req.body.update;
+
+  if (typeof update === 'object' && update.uid) {
+    userdb.update(uid, update, (err, data) => {
       if (err) {
         console.log(err)
         res.status(403).json(err)
@@ -37,9 +38,9 @@ app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
 
-app.post('/update/profile', 
+app.post('/admin/update/user', 
   verifyToken(secret), 
-  success
+  updateUser
 )
 
 module.exports = { app, userdb }

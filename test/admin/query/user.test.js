@@ -1,11 +1,11 @@
 "use strict"
 
-const TestServer = require('./test.server')
-const { Connect, getAdminUser } = require('./test.util')
+const TestServer = require('../../test.server')
+const { Connect, getAdminUser } = require('../../test.util')
 
 const server = {
-  signup: new TestServer('signup'),
-  user: new TestServer('query/user')
+  signup: new TestServer('user/signup'),
+  user: new TestServer('admin/query/user')
 }
 
 let userToken = {};
@@ -31,12 +31,12 @@ function signupUser(conn) {
 
 function test() {
 
-  return describe('api/query/user', function(){
+  return describe('admin/query/user', function(){
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_QUERY_USER,
-      path: '/query/user'
+      port: process.env.PORT_ADMIN_QUERY_USER,
+      path: '/admin/query/user'
     });
 
     before(function(done) {
@@ -44,8 +44,8 @@ function test() {
         // create a new user used for testing
         const conn = new Connect({
           hostname: 'localhost',
-          port: process.env.PORT_SIGNUP,
-          path: '/signup'
+          port: process.env.PORT_USER_SIGNUP,
+          path: '/user/signup'
         });
 
         signupUser(conn)

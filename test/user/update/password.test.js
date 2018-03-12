@@ -1,22 +1,22 @@
 "use strict"
 
-const TestServer = require('./test.server')
-const { Connect } = require('./test.util')
+const TestServer = require('../../test.server')
+const { Connect } = require('../../test.util')
 
 const server = {
-  signup: new TestServer('signup'),
-  password: new TestServer('update/password')
+  signup: new TestServer('user/signup'),
+  password: new TestServer('user/update/password')
 }
 
 let token = '';
 
-function testUpdatePassword() {
-  return describe('api/update/password', function(){
+function test() {
+  return describe('user/update/password', function(){
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_UPDATE_PASSWORD,
-      path: '/update/password'
+      port: process.env.PORT_USER_UPDATE_PASSWORD,
+      path: '/user/update/password'
     });
   
     before(function(done) {
@@ -24,8 +24,8 @@ function testUpdatePassword() {
         // create a new user used for testing
         const conn = new Connect({
           hostname: 'localhost',
-          port: process.env.PORT_SIGNUP,
-          path: '/signup'
+          port: process.env.PORT_USER_SIGNUP,
+          path: '/user/signup'
         });
         conn.request(
           {username: 'tester@update-password.com', password: '123'}, 
@@ -162,4 +162,4 @@ function testUpdatePassword() {
   
 }
 
-module.exports = testUpdatePassword
+module.exports = test

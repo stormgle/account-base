@@ -1,13 +1,13 @@
 "use strict"
 
-const TestServer = require('./test.server')
-const { Connect, getAdminUser } = require('./test.util')
+const TestServer = require('../../test.server')
+const { Connect, getAdminUser } = require('../../test.util')
 
 const server = {
-  signup: new TestServer('signup'),
+  signup: new TestServer('user/signup'),
   user: {
-    query: new TestServer('query/user'),
-    update: new TestServer('update/user')
+    query: new TestServer('admin/query/user'),
+    update: new TestServer('admin/update/user')
   }
 }
 
@@ -35,8 +35,8 @@ function queryUser() {
   return new Promise((resolve, reject) => {
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_QUERY_USER,
-      path: '/query/user'
+      port: process.env.PORT_ADMIN_QUERY_USER,
+      path: '/admin/query/user'
     });
     server.user.query.start(() => {
       conn.request(
@@ -59,12 +59,12 @@ function queryUser() {
 }
 
 function test() {
-  return describe('api/update/user', function(){
+  return describe('admin/update/user', function(){
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_UPDATE_USER,
-      path: '/update/user'
+      port: process.env.PORT_ADMIN_UPDATE_USER,
+      path: '/admin/update/user'
     });
 
     before(function(done) {
@@ -72,8 +72,8 @@ function test() {
         // create a new user used for testing
         const conn = new Connect({
           hostname: 'localhost',
-          port: process.env.PORT_SIGNUP,
-          path: '/signup'
+          port: process.env.PORT_USER_SIGNUP,
+          path: '/user/signup'
         });
 
         signupUser(conn)

@@ -4,12 +4,14 @@ require('dotenv').config()
 
 const { db } = require('./test.util')
 
-const testSignup = require('./signup.test')
-const testLogin = require('./login.test')
-const testQueryUser = require('./query.user.test')
-const testUpdateProfile = require('./update.profile.test')
-const testUpdatePassword = require('./update.password.test')
-const testUpdateUser = require('./update.user.test')
+const testSignup = require('./user/signup.test')
+const testLogin = require('./user/login.test')
+
+const testUpdateProfile = require('./user/update/profile.test')
+const testUpdatePassword = require('./user/update/password.test')
+
+const testQueryUser = require('./admin/query/user.test')
+const testUpdateUser = require('./admin/update/user.test')
 
 db.launch();
 

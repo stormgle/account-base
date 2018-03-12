@@ -1,17 +1,17 @@
 "use strict"
 
-const TestServer = require('./test.server')
-const { Connect } = require('./test.util')
+const TestServer = require('../test.server')
+const { Connect } = require('../test.util')
 
-const server = new TestServer('login');
+const server = new TestServer('user/login');
 
-function testLogin() {
-  return describe('api/login', function() {
+function test() {
+  return describe('user/login', function() {
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_LOGIN,
-      path: '/login'
+      port: process.env.PORT_USER_LOGIN,
+      path: '/user/login'
     });
   
     before(function(done) {
@@ -214,4 +214,4 @@ function testLogin() {
   })
 }
 
-module.exports = testLogin
+module.exports = test

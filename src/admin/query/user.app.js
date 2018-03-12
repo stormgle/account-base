@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 
 const UserDB = require('@stormgle/userdb-api');
 
-const { verifyToken } = require('../lib/token')
-const { serializeQueriedUser } = require('../lib/serializer')
+const { verifyToken } = require('../../lib/token')
+const { serializeQueriedUser } = require('../../lib/serializer')
 
 const secret = process.env.KEY_SUPER;
 
@@ -44,7 +44,7 @@ app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
 
-app.post('/query/user', 
+app.post('/admin/query/user', 
   verifyToken(secret), 
   queryUser,
   serializeQueriedUser,

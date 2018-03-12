@@ -21,7 +21,7 @@ class TestServer {
           console.log('Failed to init local db')
           done(err);
         } else {
-          const portName = api.replace('/','_');
+          const portName = api.replace(/\//g,'_');
           const PORT = process.env[`PORT_${portName.toUpperCase()}`];
           this.httpServer = require('http').createServer(app);
           this.httpServer.listen(PORT);

@@ -1,6 +1,6 @@
 "use strict"
 
-const { app, userdb } = require('./user.app');
+const { app, userdb } = require('./profile.app');
 
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
@@ -16,9 +16,9 @@ userdb.use(dynamodb(
       console.log(err)
     } else {
       const httpServer = require('http').createServer(app);
-      const PORT = process.env.PORT_UPDATE_USER;
+      const PORT = process.env.PORT_USER_UPDATE_PROFILE;
       httpServer.listen(PORT)
-      console.log(`#Update/User service is running at localhost:${PORT}\n`);
+      console.log(`#Update/Profile service is running at localhost:${PORT}\n`);
     }
   }
 ));

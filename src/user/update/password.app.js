@@ -7,8 +7,8 @@ const bodyParser = require('body-parser')
 
 const UserDB = require('@stormgle/userdb-api')
 
-const { checkIfUserExist } = require('../lib/check');
-const { authenticateByPassword } = require('../lib/authen')
+const { checkIfUserExist } = require('../../lib/check');
+const { authenticateByPassword } = require('../../lib/authen')
 
 const userdb = new UserDB()
 const app = express()
@@ -35,7 +35,7 @@ app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
 
-app.post('/update/password',
+app.post('/user/update/password',
   checkIfUserExist(userdb),
   authenticateByPassword,
   success
