@@ -24,8 +24,12 @@ function queryUser(req, res, next) {
       if (err) {
         res.status(400).send();
       } else {
-        req.user = user;
-        next();
+        if (user) {
+          req.user = user;
+          next();
+        } else {
+          res.status(404).json('not found')
+        }      
       }
     }))
   } else {
