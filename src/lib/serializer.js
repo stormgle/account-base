@@ -12,8 +12,18 @@ function serializeUser(req, res, next) {
   next();
 }
 
+function serializeQueriedUser(req, res, next) {
+  delete req.user.login
+  for (let props in req.user) {
+    if (typeof req.user[props] === 'function') {
+      delete req.user[props]
+    }
+  }
+  next();
+}
+
 function success(req, res) {
   res.status(200).json({user: req.user, tokens: req.tokens});
 }
 
-module.exports = { serializeUser, success }
+module.exports = { serializeUser, serializeQueriedUser, success }
