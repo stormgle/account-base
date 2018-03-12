@@ -6,8 +6,10 @@ const { db } = require('./test.util')
 
 const testSignup = require('./signup.test')
 const testLogin = require('./login.test')
+const testQueryUser = require('./query.user.test')
 const testUpdateProfile = require('./update.profile.test')
 const testUpdatePassword = require('./update.password.test')
+const testUpdateUser = require('./update.user.test')
 
 db.launch();
 
@@ -27,9 +29,13 @@ describe('test user-services api', function() {
 
   testLogin()
 
+  testQueryUser()
+
   testUpdateProfile()
   
   testUpdatePassword()
+
+  testUpdateUser()
 
   
 })

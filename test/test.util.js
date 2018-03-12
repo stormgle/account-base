@@ -5,6 +5,15 @@ const http = require('http')
 const DynamoDbLocal = require('dynamodb-local');
 const UserDB = require('@stormgle/userdb-api');
 
+const jwt = require('jsonwebtoken');
+
+const keys = {
+  account: process.env.KEY_ACCOUNT,
+  super: process.env.KEY_SUPER
+};
+
+let _admin = {};
+
 class Connect {
   constructor({hostname, port, path}) {
 
@@ -123,7 +132,37 @@ const db = {
             if (err) {
               done(err);
             } else {
-              done()
+              const  policies = {super: true, account: true}
+              // add admin user into database
+              userdb.createUser(
+                {
+                  username: 'admin',
+                  login: { password: 'qwe'},
+                  roles: ['admin','user'],
+                  uid: 'admin-special-uid',
+                  policies,
+                  profile: { email: ['admin@team.com']}
+                },
+                (err, user) => {
+                  if (err) done(err)
+                  else {
+                    const tokens = {}
+                    for(let policy in policies) {    
+                      if (keys[policy]) {
+                        const token = jwt.sign({
+                          uid: user.uid,
+                        }, keys[policy], {
+                          expiresIn: "14 days"
+                        });
+                        tokens[policy] = token;
+                      }   
+                    }
+                    _admin = user;
+                    _admin.tokens = tokens;
+                    done();
+                  }
+                }
+              )
             }
           })
         }
@@ -136,4 +175,8 @@ const db = {
   }
 }
 
-module.exports = { Connect, db }
+function getAdminUser() {
+  return _admin;
+}
+
+module.exports = { Connect, db, getAdminUser }
