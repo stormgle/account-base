@@ -25,7 +25,6 @@ function verifyToken(key) {
   return function(req, res, next) {
     const bearerHeader = req.headers['authorization'];
     if (typeof bearerHeader === 'undefined') {
-      console.log(req.headers)
       res.status(403).json({error: 'unauthorized'});
       return
     }
