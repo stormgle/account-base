@@ -1,7 +1,7 @@
 "use strict"
 
-const TestServer = require('../test.server')
-const { Connect } = require('../test.util')
+const TestServer = require('../server')
+const { Connect } = require('../util')
 
 const server = new TestServer('user/login');
 

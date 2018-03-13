@@ -2,7 +2,7 @@
 
 require('dotenv').config()
 
-const { Test, db } = require('./test.util')
+const { Test, db } = require('./util')
 
 db.launch();
 
