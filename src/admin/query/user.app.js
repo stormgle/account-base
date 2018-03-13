@@ -2,55 +2,47 @@
 
 require('dotenv').config()
 
-const express = require('express')
-const bodyParser = require('body-parser');
-
-const UserDB = require('@stormgle/userdb-api');
-
 const { verifyToken } = require('../../lib/token')
 const { serializeQueriedUser } = require('../../lib/serializer')
 
 const secret = process.env.KEY_SUPER;
 
-const userdb = new UserDB();
+function queryUser(userdb) {
+  return function (req, res, next) {
+    const uid = req.user.uid;
+    const username = req.body.username;
 
-
-function queryUser(req, res, next) {
-  const uid = req.user.uid;
-  const username = req.body.username;
-
-  if (username && username.length > 0) {
-    userdb.queryUser({ username }, ((err, user) => {
-      if (err) {
-        res.status(400).send();
-      } else {
-        if (user) {
-          req.user = user;
-          next();
+    if (username && username.length > 0) {
+      userdb.queryUser({ username }, ((err, user) => {
+        if (err) {
+          res.status(400).send();
         } else {
-          res.status(404).json('not found')
-        }      
-      }
-    }))
-  } else {
-    res.status(400).send();
+          if (user) {
+            req.user = user;
+            next();
+          } else {
+            res.status(404).json('not found')
+          }      
+        }
+      }))
+    } else {
+      res.status(400).send();
+    }
   }
-  
 }
 
-const app = express();
+function authen() {
+  return verifyToken(secret);
+}
 
-app
-  .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: false }))
+function serializer() {
+  return serializeQueriedUser;
+}
 
-app.post('/admin/query/user', 
-  verifyToken(secret), 
-  queryUser,
-  serializeQueriedUser,
-  (req, res) => {
+function final() {
+  return function(req, res) {
     res.status(200).json({ user: req.user });
   }
-)
+}
 
-module.exports = { app, userdb }
+module.exports = [authen, queryUser, serializer, final]

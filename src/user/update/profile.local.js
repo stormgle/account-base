@@ -1,24 +1,27 @@
 "use strict"
 
-const { app, userdb } = require('./profile.app');
+const app = require('../app')
 
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
-/* add dynamodb driver to userdb-api */
-userdb.use(dynamodb(
-  {
-    region : 'us-west-2', 
-    endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
-  },
-  (err) => {
-    if (err) {
-      console.log('Failed to init local db')
-      console.log(err)
-    } else {
-      const httpServer = require('http').createServer(app);
-      const PORT = process.env.PORT_USER_UPDATE_PROFILE;
-      httpServer.listen(PORT)
-      console.log(`#Update/Profile service is running at localhost:${PORT}\n`);
-    }
-  }
-));
+const dbDriver = dynamodb({ 
+  region : 'us-west-2', 
+  endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
+});
+
+app
+  .useDbDriver(dbDriver)
+  .createFunction('/user/update/profile', require('./profile.app'));
+
+const httpServer = require('http').createServer(app);
+const PORT = process.env.PORT_USER_UPDATE_PROFILE;
+httpServer.listen(PORT)
+console.log(`# /user/update/profile service is running at localhost:${PORT}\n`);
+
+
+
+
+
+
+
+

@@ -31,11 +31,11 @@ describe('test user-services api', function() {
 
   testLogin()
 
-  testQueryUser()
-
   testUpdateProfile()
   
   testUpdatePassword()
+
+  testQueryUser()
 
   testUpdateUser()
 

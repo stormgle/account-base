@@ -2,73 +2,63 @@
 
 require('dotenv').config()
 
-const express = require('express')
-const bodyParser = require('body-parser');
-
-const UserDB = require('@stormgle/userdb-api');
-
 const uuid = require('uuid/v1');
 const { serializeUser, success } = require('../lib/serializer');
 const { generateToken } = require('../lib/token');
 const { checkIfNewUser } = require('../lib/check');
-
-const userdb = new UserDB();
-const app = express();
-
-app
-  .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: false }))
 
 const keys = {
   account: process.env.KEY_ACCOUNT,
   super: process.env.KEY_SUPER
 };
 
-function createUser (req, res, next) {
-  const { username, password } = req.body;
+function createUser (userdb) {
+  return function (req, res, next) {
+  
+    const { username, password } = req.body;
 
-  const roles = (username === 'admin' && password === process.env.ADMIN_PASSWORD) ? 
-                  ['admin', 'user'] : ['user']
+    const roles = (username === 'admin' && password === process.env.ADMIN_PASSWORD) ? 
+                    ['admin', 'user'] : ['user']
 
-  userdb.getPolicy(roles, (err, policies) => {
+    userdb.getPolicy(roles, (err, policies) => {
 
-    if (err) {
-      res.status(500).json({error: 'Internal error'});
-      return;
-    }
+      if (err) {
+        res.status(500).json({error: 'Internal error'});
+        return;
+      }
 
-    if (!username || !password) {
-      res.status(403).json({error: 'Invalidated Username or Password'});
-      return;
-    }
+      if (!username || !password) {
+        res.status(403).json({error: 'Invalidated Username or Password'});
+        return;
+      }
 
-    const user = { 
-      username, 
-      roles: roles,
-      uid: uuid(), 
-      login: { password }, 
-      policies,
-      profile: { email: [username] }
-    }
+      const user = { 
+        username, 
+        roles: roles,
+        uid: uuid(), 
+        login: { password }, 
+        policies,
+        profile: { email: [username] }
+      }
 
-    userdb.createUser( user, (err, user) => {
-        if (err) {
-          res.status(500).json({error: 'Internal error'});
-        } else {
-          req.user = user;
-          next();
-        }
-      });
-  });
-
+      userdb.createUser( user, (err, user) => {
+          if (err) {
+            res.status(500).json({error: 'Internal error'});
+          } else {
+            req.user = user;
+            next();
+          }
+        });
+    });
+  }
 }
 
-app.post('/user/signup', 
-  checkIfNewUser(userdb),
-  createUser,
-  generateToken(keys),
-  serializeUser,
-  success
-);
+function genToken() {
+  return generateToken(keys);
+}
 
-module.exports = { app, userdb }
+function final() {
+  return success
+}
+
+module.exports = [checkIfNewUser, createUser, genToken, final]
