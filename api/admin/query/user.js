@@ -2,8 +2,8 @@
 
 require('dotenv').config()
 
-const { verifyToken } = require('../../lib/token')
-const { serializeQueriedUser } = require('../../lib/serializer')
+const { verifyToken } = require('../../../lib/token')
+const { serializeQueriedUser } = require('../../../lib/serializer')
 
 const secret = process.env.KEY_SUPER;
 

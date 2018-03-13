@@ -2,10 +2,10 @@
 
 require('dotenv').config()
 
-const { checkIfUserExist } = require('../lib/check');
-const { authenticateByPassword } = require('../lib/authen')
-const { serializeUser, success } = require('../lib/serializer');
-const { generateToken } = require('../lib/token');
+const { checkIfUserExist } = require('../../lib/check');
+const { authenticateByPassword } = require('../../lib/authen')
+const { serializeUser, success } = require('../../lib/serializer');
+const { generateToken } = require('../../lib/token');
 
 
 const keys = {

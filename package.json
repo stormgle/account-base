@@ -2,7 +2,7 @@
   "name": "@stormgle/user-services",
   "version": "1.0.0",
   "description": "Service provides user authentication utilities",
-  
+  "main": "api/main.js",
   "scripts": {
     "setup": "node scripts/setup",
     "start:db": "cd localdb && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -port 3001 -sharedDb",

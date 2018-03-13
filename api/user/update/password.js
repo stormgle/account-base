@@ -2,8 +2,8 @@
 
 require('dotenv').config()
 
-const { checkIfUserExist } = require('../../lib/check');
-const { authenticateByPassword } = require('../../lib/authen')
+const { checkIfUserExist } = require('../../../lib/check');
+const { authenticateByPassword } = require('../../../lib/authen')
 
 function update(userdb) {
   return function (req, res) {

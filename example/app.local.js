@@ -1,6 +1,6 @@
 "use strict"
 
-const app = require('../src/app')
+const app = require('../api/app')
 
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
@@ -22,7 +22,7 @@ app
   .useDbDriver(dbDriver)
 
 funcs.forEach(func => {
-  app.createFunction(`/${func}`, require(`../src/${func}.app`))
+  app.createFunction(`/${func}`, require(`../api/${func}`))
 })  
 
 const PORT = 3100;
