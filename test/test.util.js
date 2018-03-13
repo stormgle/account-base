@@ -179,4 +179,22 @@ function getAdminUser() {
   return _admin;
 }
 
-module.exports = { Connect, db, getAdminUser }
+const _tests = [];
+
+function Test(tests) {
+
+  tests.forEach( function (path) {
+    _tests.push(require(`./${path}.test`))
+  })
+
+  return {
+    run() {
+      return _tests.map(function(test) {
+        return test();
+      })
+    }
+  }
+
+}
+
+module.exports = { Connect, db, getAdminUser, Test }

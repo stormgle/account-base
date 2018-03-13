@@ -11,7 +11,7 @@ const server = {
 let token = '';
 
 function test() {
-  return describe('api/update/profile', function(){
+  return describe('user/update/profile', function(){
 
     const conn = new Connect({
       hostname: 'localhost',
