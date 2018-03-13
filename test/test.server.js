@@ -10,7 +10,7 @@ class TestServer {
 
   start(done) {
     const api = this.api
-    const app = require('../api/app');
+    const app = require('../api/main');
     const funcs = require(`../api/${api}`);
     
     app.useDbDriver(
