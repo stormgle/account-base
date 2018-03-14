@@ -13,6 +13,7 @@
     "clean:local": "rm -rf ./.build/local",
     "build:local": "npm run clean:local && webpack --config webpack.config.local.js",
     "start:local": "concurrently \"npm run start:db\" \"nodemon example/app.local.js\"",
+    "example": "npm run setup && npm run start:local",
     "test": "mocha test/test.js"
   },
   "repository": {
