@@ -17,8 +17,7 @@ function createUser (userdb) {
   
     const { username, password } = req.body;
 
-    const roles = (username === 'admin' && password === process.env.ADMIN_PASSWORD) ? 
-                    ['admin', 'user'] : ['user']
+    const roles = ['user'];
 
     userdb.getPolicy(roles, (err, policies) => {
 
