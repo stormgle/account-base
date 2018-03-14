@@ -1,6 +1,6 @@
 "use strict"
 
-const app = require('../api/app')
+const app = require('../api/main')
 
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
