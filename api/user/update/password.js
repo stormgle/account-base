@@ -7,10 +7,10 @@ const { authenticateByPassword } = require('../../../lib/authen')
 
 function update(userdb) {
   return function (req, res) {
-    const uid = req.user.uid;
+    const user = req.user;
     const login = req.body.login;
     if (typeof login === 'object' && Object.keys(login).length > 0) {
-      userdb.update(uid, { login }, (err) => {
+      user.updatePassword({ login }, (err) => {
         if (err) {
           console.log(err)
           res.status(403).json(err)
