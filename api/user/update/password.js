@@ -1,7 +1,5 @@
 "use strict"
 
-require('dotenv').config()
-
 const { checkIfUserExist } = require('../../../lib/check');
 const { authenticateByPassword } = require('../../../lib/authen')
 

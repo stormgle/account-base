@@ -1,7 +1,5 @@
 "use strict"
 
-require('dotenv').config()
-
 const { verifyToken } = require('../../../lib/token')
 
 const secret = process.env.KEY_ACCOUNT;

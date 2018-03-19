@@ -1,7 +1,5 @@
 "use strict"
 
-require('dotenv').config()
-
 const uuid = require('uuid/v1');
 const { serializeUser, success } = require('../../lib/serializer');
 const { generateToken } = require('../../lib/token');

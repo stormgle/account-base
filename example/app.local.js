@@ -1,5 +1,7 @@
 "use strict"
 
+require('dotenv').config()
+
 const app = require('../api/main')
 
 const dynamodb = require('@stormgle/userdb-dynamodb')

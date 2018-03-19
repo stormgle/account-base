@@ -1,7 +1,5 @@
 "use strict"
 
-require('dotenv').config()
-
 const { verifyToken } = require('../../../lib/token')
 const { serializeQueriedUser } = require('../../../lib/serializer')
 

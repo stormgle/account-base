@@ -1,6 +1,6 @@
 {
   "name": "@stormgle/user-services",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Service provides user authentication utilities",
   "main": "api/main.js",
   "scripts": {
@@ -35,15 +35,12 @@
     "dynamodb-local": "0.0.20",
     "mocha": "^5.0.1",
     "nodemon": "^1.17.1",
-    "webpack": "^4.0.1",
-    "webpack-cli": "^2.0.9",
-    "webpack-node-externals": "^1.6.0",
+    "dotenv": "^5.0.1",
     "@stormgle/userdb-dynamodb": "^1.0.0"
   },
   "dependencies": {
     "@stormgle/userdb-api": "^1.0.0",
     "body-parser": "^1.18.2",
-    "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.1",
     "uuid": "^3.2.1"
