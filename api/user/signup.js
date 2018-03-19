@@ -56,8 +56,12 @@ function genToken() {
   return generateToken(keys);
 }
 
+function serialize() {
+  return serializeUser
+}
+
 function final() {
   return success
 }
 
-module.exports = [checkIfNewUser, createUser, genToken, final]
+module.exports = [checkIfNewUser, createUser, genToken, serialize, final]
