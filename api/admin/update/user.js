@@ -2,7 +2,7 @@
 
 const { verifyToken } = require('../../../lib/token')
 
-const secret = process.env.KEY_SUPER;
+const secret = process.env.AUTH_KEY_SUPER;
 
 function update(userdb) {
   return function (req, res) {

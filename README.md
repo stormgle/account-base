@@ -2,7 +2,7 @@
 @stormgle
 
 ## Introduction
-`user-services` is a collection of micro-services aim to manage user account. It is design based on nodejs and express. Each service can be deploy as an RESTful api so that it is easy to scale in production or integrate with serverless platforms such as Amazon Lambda.
+`user-services` is a collection of micro-services aim to manage user account. It is based on nodejs and express. Each service can be deploy as an REST API so that it is easy to scale in production or integrate with serverless platforms such as Amazon Lambda.
 
 
 ## Run example demo
@@ -28,7 +28,7 @@ Open a ternimal and make a request to example server, using `curl` for example.
 #### Login 
 `curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3100/user/login`
 
-For complete list of the API, refer section [TBD]
+For the complete list of the API, refer section [TBD]
 
 ## Use the package in your project
 
@@ -127,7 +127,7 @@ app
   .useDbDriver(dbDriver)
 
 /* create function from the APIs, it will add the api to the express route */
-[ 'user/signup', 'user/login']
+['user/signup', 'user/login']
 .forEach(api => {
   app.createFunction(`/${api}`, require(`@stormgle/user-services/api/${api}`))
 }) 

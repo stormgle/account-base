@@ -8,8 +8,8 @@ const UserDB = require('@stormgle/userdb-api');
 const jwt = require('jsonwebtoken');
 
 const keys = {
-  account: process.env.KEY_ACCOUNT,
-  super: process.env.KEY_SUPER
+  account: process.env.AUTH_KEY_ACCOUNT,
+  super: process.env.AUTH_KEY_SUPER
 };
 
 let _admin = {};

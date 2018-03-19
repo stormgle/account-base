@@ -6,17 +6,8 @@ const { serializeUser, success } = require('../../lib/serializer');
 const { generateToken } = require('../../lib/token');
 
 
-const keys = {
-  account: process.env.KEY_ACCOUNT,
-  super: process.env.KEY_SUPER
-};
-
 function authen() {
   return authenticateByPassword
-}
-
-function genToken() {
-  return generateToken(keys);
 }
 
 function serialize() {
@@ -27,4 +18,4 @@ function final() {
   return success
 }
 
-module.exports = [checkIfUserExist, authen, genToken, serialize, final]
+module.exports = [checkIfUserExist, authen, generateToken, serialize, final]

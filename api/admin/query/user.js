@@ -3,7 +3,7 @@
 const { verifyToken } = require('../../../lib/token')
 const { serializeQueriedUser } = require('../../../lib/serializer')
 
-const secret = process.env.KEY_SUPER;
+const secret = process.env.AUTH_KEY_SUPER;
 
 function queryUser(userdb) {
   return function (req, res, next) {

@@ -5,11 +5,6 @@ const { serializeUser, success } = require('../../lib/serializer');
 const { generateToken } = require('../../lib/token');
 const { checkIfNewUser } = require('../../lib/check');
 
-const keys = {
-  account: process.env.KEY_ACCOUNT,
-  super: process.env.KEY_SUPER
-};
-
 function createUser (userdb) {
   return function (req, res, next) {
   
@@ -50,10 +45,6 @@ function createUser (userdb) {
   }
 }
 
-function genToken() {
-  return generateToken(keys);
-}
-
 function serialize() {
   return serializeUser
 }
@@ -62,4 +53,4 @@ function final() {
   return success
 }
 
-module.exports = [checkIfNewUser, createUser, genToken, serialize, final]
+module.exports = [checkIfNewUser, createUser, generateToken, serialize, final]
