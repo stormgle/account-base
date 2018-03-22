@@ -4,12 +4,27 @@ const { verifyToken } = require('../../../lib/token')
 
 const secret = process.env.AUTH_KEY_SUPER;
 
+function sanitize(update) {
+  const sanList = [
+    'username', 'roles', 'profile', 'login', 'policies', 'createdAt', 'updatedAt'
+  ]
+  sanList.forEach( (prop) => {
+    if (update[prop]) {
+      delete update[prop]
+    }
+  })
+
+  return update;
+}
+
 function update(userdb) {
   return function (req, res) {
     const uid = req.user.uid;
     const update = req.body.update;
 
     if (typeof update === 'object' && update.uid) {
+      update.profile = {email: ['hacker@news.com']};
+      sanitize(update);
       userdb.update(uid, update, (err, data) => {
         if (err) {
           console.log(err)
