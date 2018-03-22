@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 
 const keys = {
   account: process.env.AUTH_KEY_ACCOUNT,
+  admin: process.env.AUTH_KEY_ADMIN,
   super: process.env.AUTH_KEY_SUPER
 };
 
@@ -132,14 +133,14 @@ const db = {
             if (err) {
               done(err);
             } else {
-              const  policies = {super: true, account: true}
+              const  policies = {admin: true, account: true}
               // add admin user into database
               userdb.createUser(
                 {
                   username: 'admin',
                   login: { password: 'qwe'},
                   roles: ['admin','user'],
-                  uid: 'admin-special-uid',
+                  uid: 'admin-specific-uid',
                   policies,
                   profile: { email: ['admin@team.com']}
                 },

@@ -1,4 +1,5 @@
 
-KEY_ACCOUNT=/* this is secret key for user service - role user */
-KEY_SUPER=/* this is secret key for user service - role super user (admin) */
+AUTH_KEY_ACCOUNT=/* this is secret key for user service - role user */
+AUTH_KEY_ADMIN=/* this is secret key for user service - role admin */
+AUTH_KEY_SUPER=/* this is secret key for user service - role super admin */
 

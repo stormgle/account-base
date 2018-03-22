@@ -66,7 +66,7 @@ function test() {
         {
           username: 'tester@query-user.com'
         },
-        getAdminUser().tokens.super,
+        getAdminUser().tokens.admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {
@@ -87,7 +87,7 @@ function test() {
         {
           username: 'incorrect.name@query-user.com'
         },
-        getAdminUser().tokens.super,
+        getAdminUser().tokens.admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {
@@ -108,7 +108,7 @@ function test() {
         {
           username: ''
         },
-        getAdminUser().tokens.super,
+        getAdminUser().tokens.admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {

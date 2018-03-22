@@ -41,7 +41,7 @@ function queryUser() {
     server.user.query.start(() => {
       conn.request(
         {username: 'tester@update-user.com'}, 
-        getAdminUser().tokens.super,
+        getAdminUser().tokens.admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {
@@ -96,7 +96,7 @@ function test() {
         {
           update: {uid: userId, verified: true }
         },
-        getAdminUser().tokens.super,
+        getAdminUser().tokens.admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {
