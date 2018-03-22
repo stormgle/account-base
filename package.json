@@ -1,6 +1,6 @@
 {
   "name": "@stormgle/user-services",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Service provides user authentication utilities",
   "main": "api/main.js",
   "scripts": {
