@@ -10,38 +10,28 @@ function createUser (userdb) {
   
     const { username, password } = req.body;
 
-    const roles = ['user'];
+    if (!username || !password) {
+      res.status(403).json({error: 'Invalidated Username or Password'});
+      return;
+    }
 
-    userdb.getPolicy(roles, (err, policies) => {
+    const user = { 
+      username, 
+      roles: ['user'],
+      uid: uuid(), 
+      login: { password }, 
+      profile: { email: [username] }
+    }
 
+    userdb.createUser( user, (err, user) => {
       if (err) {
         res.status(500).json({error: 'Internal error'});
-        return;
+      } else {
+        req.user = user;          
+        next();
       }
-
-      if (!username || !password) {
-        res.status(403).json({error: 'Invalidated Username or Password'});
-        return;
-      }
-
-      const user = { 
-        username, 
-        roles: roles,
-        uid: uuid(), 
-        login: { password }, 
-        policies,
-        profile: { email: [username] }
-      }
-
-      userdb.createUser( user, (err, user) => {
-          if (err) {
-            res.status(500).json({error: 'Internal error'});
-          } else {
-            req.user = user;
-            next();
-          }
-        });
     });
+
   }
 }
 

@@ -133,7 +133,6 @@ const db = {
             if (err) {
               done(err);
             } else {
-              const  policies = {admin: true, account: true}
               // add admin user into database
               userdb.createUser(
                 {
@@ -141,13 +140,15 @@ const db = {
                   login: { password: 'qwe'},
                   roles: ['admin','user'],
                   uid: 'admin-specific-uid',
-                  policies,
+                  policies: {},
                   profile: { email: ['admin@team.com']}
                 },
                 (err, user) => {
                   if (err) done(err)
                   else {
                     const tokens = {}
+                    const policies = user.policies;
+console.log(user)                    
                     for(let policy in policies) {    
                       if (keys[policy]) {
                         const token = jwt.sign({
