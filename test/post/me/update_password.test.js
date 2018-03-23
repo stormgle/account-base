@@ -1,22 +1,28 @@
 "use strict"
 
-const TestServer = require('../../server')
-const { Connect } = require('../../util')
+const cwd = process.cwd();
+const TestServer = require(`${cwd}/test/server`)
+const { Connect } = require(`${cwd}/test/util`)
 
-const server = {
-  signup: new TestServer('user/signup'),
-  password: new TestServer('user/update/password')
-}
+function test(path) {
 
-let token = '';
+  const server = {
+    signup: new TestServer('post/auth/signup'),
+    password: new TestServer(path)
+  }
 
-function test() {
-  return describe('user/update/password', function(){
+  const patt = /^\w+/i;
+  const method = `${path.match(patt)}`.toUpperCase();
+  const uri = path.replace(patt,"");
+  
+  let token = '';
+
+  return describe(`${method} ${uri}`, function(){
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_USER_UPDATE_PASSWORD,
-      path: '/user/update/password'
+      port: process.env.PORT_ME_UPDATE_PASSWORD,
+      path
     });
   
     before(function(done) {
@@ -24,8 +30,8 @@ function test() {
         // create a new user used for testing
         const conn = new Connect({
           hostname: 'localhost',
-          port: process.env.PORT_USER_SIGNUP,
-          path: '/user/signup'
+          port: process.env.PORT_AUTH_SIGNUP,
+          path: 'post/auth/signup'
         });
         conn.request(
           {username: 'tester@update-password.com', password: '123'}, 

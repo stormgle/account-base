@@ -17,11 +17,11 @@ app.useDbDriver = function (dbDriver) {
     return this;
   }
 
-app.createFunction = function (route, funcs) {
+app.createFunction = function (method, uri, funcs) {
   const middleWares = funcs.map( (func) => {
     return func(userdb)
   })
-  app.post(route, ...middleWares)
+  app[method](uri, ...middleWares)
   return app;
 }
 

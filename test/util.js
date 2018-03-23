@@ -15,12 +15,24 @@ const keys = {
 
 let _admin = {};
 
+function _clone(obj) {
+  const clonedObj = {};
+  for (let prop in obj) {
+    clonedObj[prop] = obj[prop]
+  }
+  return clonedObj;
+}
+
 class Connect {
   constructor({hostname, port, path}) {
 
+    const patt = /^\w+/i;
+    const method = `${path.match(patt)}`.toUpperCase();
+    const uri = path.replace(patt,"");
+
     this.conn = {
-      hostname, port, path,
-      method: 'POST',
+      hostname, port, path: uri,
+      method,
       headers: { 'Content-Type': 'application/json' }
     }
 
@@ -69,7 +81,13 @@ class Connect {
       bearer = null;
     }
 
-    const req = http.request(this.conn, (res) => {
+    const conn = _clone(this.conn);
+
+    if (this.conn.method === 'GET' && typeof data === 'string') {
+      conn.path = this.conn.path.replace(/\/:\w+$/,`/${data}`);
+    }
+
+    const req = http.request(conn, (res) => {
       const ret = {
         status: res.statusCode,
         body: ''
@@ -96,8 +114,10 @@ class Connect {
       console.error(`problem with request: ${e.message}`);
       done(e, null)
     });
-  
-    req.write(JSON.stringify(data));
+    
+    if (this.conn.method === 'POST') {
+      req.write(JSON.stringify(data));
+    }
     req.end();
   }
 
@@ -147,8 +167,7 @@ const db = {
                   if (err) done(err)
                   else {
                     const tokens = {}
-                    const policies = user.policies;
-console.log(user)                    
+                    const policies = user.policies;                  
                     for(let policy in policies) {    
                       if (keys[policy]) {
                         const token = jwt.sign({
@@ -186,13 +205,13 @@ const _tests = [];
 function Test(tests) {
 
   tests.forEach( function (path) {
-    _tests.push(require(`./${path}.test`))
+    _tests.push({ path, run: require(`./${path.replace(":","")}.test`) })
   })
 
   return {
     run() {
       return _tests.map(function(test) {
-        return test();
+        return test.run(test.path);
       })
     }
   }

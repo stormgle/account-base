@@ -1,17 +1,24 @@
 "use strict"
 
-const TestServer = require('../server')
-const { Connect } = require('../util')
+const cwd = process.cwd();
+const TestServer = require(`${cwd}/test/server`)
+const { Connect } = require(`${cwd}/test/util`)
 
-const server = new TestServer('user/login');
 
-function test() {
-  return describe('user/login', function() {
+function test(path) {
+
+    const server = new TestServer(path);
+
+    const patt = /^\w+/i;
+    const method = `${path.match(patt)}`.toUpperCase();
+    const uri = path.replace(patt,"");
+
+  return describe(`${method} ${uri}`, function(){
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_USER_LOGIN,
-      path: '/user/login'
+      port: process.env.PORT_AUTH_LOGIN,
+      path
     });
   
     before(function(done) {

@@ -8,7 +8,7 @@ const secret = process.env.AUTH_KEY_ADMIN;
 function queryUser(userdb) {
   return function (req, res, next) {
     const uid = req.user.uid;
-    const username = req.body.username;
+    const username = req.params.username;
 
     if (username && username.length > 0) {
       userdb.queryUser({ username }, ((err, user) => {

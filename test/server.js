@@ -1,28 +1,34 @@
 "use strict"
 
+const cwd = process.cwd();
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
 class TestServer {
-  constructor(api) {
-    this.api = api;
+  constructor(path) {
+    const patt = /^\w+/i;
+    this.method = path.match(patt);
+    this.uri = path.replace(patt,"");
+    this.path = path;
     this.httpServer = null;
   }
 
   start(done) {
-    const api = this.api
-    const app = require('../api/main');
-    const funcs = require(`../api/${api}`);
+    const app = require(`${cwd}/api/main`);
+    const path = this.path.replace(":","");
+    const funcs = require(`${cwd}/api/${path}`);
     
     app.useDbDriver(
       dynamodb({ 
         region : 'us-west-1', 
         endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
       })
-    ).createFunction(`/${api}`, funcs);
-    const portName = api.replace(/\//g,'_');
-    const PORT = process.env[`PORT_${portName.toUpperCase()}`];
+    ).createFunction(this.method, this.uri, funcs);
+
+    const portName = this.uri.replace(/\//g,'_').replace(':','');
+    const PORT = process.env[`PORT${portName.toUpperCase()}`];
     this.httpServer = require('http').createServer(app);
     this.httpServer.listen(PORT);
+
     done && done();
   }
 

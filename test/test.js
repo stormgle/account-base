@@ -8,19 +8,20 @@ db.launch();
 
 const test = Test([
 
-  'user/signup',
-  'user/login',
+  'get/users/:username',
 
-  'user/update/profile',
-  'user/update/password',
+  'post/auth/signup',
+  'post/auth/login',
 
-  'admin/query/user',
-  'admin/update/user'
+  'post/me/update_profile',
+  'post/me/update_password',
+
+  'post/users/update'
 
 ])
 
 
-describe('user-services api', function() {
+describe('', function() {
 
   before(function(done) {
     this.timeout(500000);
