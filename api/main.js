@@ -19,9 +19,9 @@ app.useDbDriver = function(dbDriver) {
 
 app.parseApi = function(api) {
   const patt = /^\w+/i;
-  const method = api.match(patt);
-  const uri = api.replace(patt,"");
-  const includePath = api.replace(":","");
+  const method = `${api.match(patt)}`;          // convert to string
+  const uri = `${api.replace(patt,"")}`;
+  const includePath = `${api.replace(":","")}`;
   return { method, uri, includePath }
 }
 
