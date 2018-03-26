@@ -12,12 +12,20 @@ app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
 
-app.useDbDriver = function (dbDriver) {
+app.useDbDriver = function(dbDriver) {
     userdb.use(dbDriver)
     return this;
   }
 
-app.createFunction = function (method, uri, funcs) {
+app.parseApi = function(api) {
+  const patt = /^\w+/i;
+  const method = api.match(patt);
+  const uri = api.replace(patt,"");
+  const includePath = api.replace(":","");
+  return { method, uri, includePath }
+}
+
+app.createFunction = function(method, uri, funcs) {
   const middleWares = funcs.map( (func) => {
     return func(userdb)
   })
