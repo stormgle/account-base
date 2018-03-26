@@ -19,7 +19,7 @@ function queryUser(userdb) {
             req.user = user;
             next();
           } else {
-            res.status(404).json('not found')
+            res.status(404).json('resource not found')
           }      
         }
       }))
