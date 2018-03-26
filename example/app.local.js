@@ -12,22 +12,23 @@ const dbDriver = dynamodb({
 });
 
 const funcs = [
-  'user/signup',
-  'user/login',
-  'user/update/profile',
-  'user/update/password',
-  'admin/query/user',
-  'admin/update/user'
+  'post/auth/signup',
+  'post/auth/login',
+  'post/me/update_profile',
+  'post/me/update_password',
+  'post/users/update',
+  'get/users/:username'
 ]
 
 app
   .useDbDriver(dbDriver)
 
 funcs.forEach(func => {
-  app.createFunction(`/${func}`, require(`../api/${func}`))
+  const { method, uri, includePath } = app.parseApi(func);
+  app.createFunction(method, uri, require(`../api/${includePath}`))
 })  
 
-const PORT = 3100;
+const PORT = 3000;
 const httpServer = require('http').createServer(app);
 httpServer.listen(PORT)
 console.log(`# user-services is running at localhost:${PORT}\n`);
