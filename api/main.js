@@ -25,9 +25,9 @@ app.parseApi = function(api) {
   return { method, uri, includePath }
 }
 
-app.createFunction = function(method, uri, funcs) {
+app.createFunction = function(method, uri, funcs, options) {
   const middleWares = funcs.map( (func) => {
-    return func(userdb)
+    return func(userdb, options)
   })
   app[method](uri, ...middleWares)
   return app;
