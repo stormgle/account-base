@@ -11,7 +11,6 @@ function update(userdb) {
     if (typeof profile === 'object' && Object.keys(profile).length > 0) {
       userdb.update(uid, { profile }, (err, data) => {
         if (err) {
-          console.log(err)
           res.status(403).json(err)
         } else {
           res.status(200).json({status: 'updated success'});
