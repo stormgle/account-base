@@ -2,32 +2,30 @@
 
 const form = ({ token, endPoint }) => `
   function submit() {
-    console.log('token = ${token}');
-    console.log($('pwd').value)
     if (check()) {
       post($('pwd').value, function(err, data) {
         if (err) {
           console.log(err)
         } else {
-          console.log(data)
+          document.body.innerHTML = data
         }
       })
     }
   }
   function $(id) {
-    return document.getElementById(id);
+    return document.getElementById(id)
   }
   function check() {
-    return $('pwd').value === $('retype').value;
+    return $('pwd').value === $('retype').value
   }
   function post(data, callback) {
-    var request = new XMLHttpRequest();
-    request.open('POST', '${endPoint}', true);
-    request.setRequestHeader('Content-Type', 'application/json');
-    request.setRequestHeader('Authorization', 'Bearer ${token}');
+    var request = new XMLHttpRequest()
+    request.open('POST', '${endPoint}', true)
+    request.setRequestHeader('Content-Type', 'application/json')
+    request.setRequestHeader('Authorization', 'Bearer ${token}')
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
-        callback(null, JSON.parse(request.responseText));
+        callback(null, request.responseText)
       } else {
         callback({
           status: request.status,
@@ -35,7 +33,7 @@ const form = ({ token, endPoint }) => `
         }, null);
       }
     }
-    request.send(JSON.stringify({login:{password:data}}));
+    request.send(JSON.stringify({login:{password:data}}))
   }
 `
 

@@ -19,7 +19,7 @@ const style = `
   h2 {
     margin: 0;
   }
-  #container {
+  .container {
     margin: 16px;
   }
   hr {
@@ -27,7 +27,7 @@ const style = `
     border-top: 1px solid #eee;
     margin: 20px 0;
   }
-  #panel {
+  .panel {
     color: #616161;
   }
   #form {
