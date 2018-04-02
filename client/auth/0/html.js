@@ -11,28 +11,43 @@ const form = ({title, body, script, style}) => `
   </head>
   <body>
     <header>
-      <h2>${title} / Reset Password Form</h2>
+      <h2>${title}</h2>
+      <div>  Reset Password Form </div>
     </header>
     <div class='container' id='main'>
-      <div class='panel'>
+      <div class='intro'>
         <p> Please enter your new password </p>
         <p> Your password should contain lower case, upper case, number and special characters. </p>
         <hr />
       </div>
-      <h3>Password Reset Form</h3>
-      <div id='form'> 
-        <p>
-          <label>Your new password</label>
-          <input id='pwd' />
-        </p>
-        <p>
-          <label>Retype your password</label>
-          <input id='retype' />
-        </p>
-        <hr />
-        <p>
-          <button type='button' onclick="submit()"> Submit </button>
-        </p>
+      <div class='panel'>
+        <h3>Password Reset Form</h3>
+        <div id='form'> 
+          <div>
+            <label>Your new password</label>
+            <input type='password' id='pwd' />
+            <!--
+            <div class='msg'>
+              <div id='res'>  </div>
+              <div class='bar'>
+                <div class='ind red'></div><div class='ind red'></div><div class='ind orange'></div><div class='ind orange'></div><div class='ind yellow'></div><div class='ind blue'></div><div class='ind green'></div>
+                <div id='msk'></div>
+              </div>
+            </div>
+            -->
+          </div>
+          <div>
+            <label>Retype your password</label>
+            <input type='password' id='retype' onkeyup="clearTxt()"/>
+            <div class='msg'>
+              <div id='err'>Password mismatch</div>
+            </div>
+          </div>
+          <hr />
+          <p>
+            <button type='button' onclick="submit()"> Submit </button>
+          </p>
+        </div>
       </div>
     </div>
     <script>${script}</script>

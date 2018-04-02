@@ -27,12 +27,15 @@ const style = `
     border-top: 1px solid #eee;
     margin: 20px 0;
   }
-  .panel {
+  .intro {
     color: #616161;
   }
-  #form {
+  .panel {
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
-    padding: 16px;
+  }
+  #form {
+    
+    padding: 32px 16px 32px 16px;
   }
   h3 {
     margin: 16px 0 0 0;
@@ -41,9 +44,9 @@ const style = `
     background-color: #3498db;
   }
   label {
-    margin-top: 16px;
     color: #757575;
     display: block;
+    padding: 16px 0 16px 0;
   }
   input {
     border: 1px solid #ccc!important;
@@ -64,6 +67,52 @@ const style = `
     cursor: pointer;
     font: inherit;
     margin: 0;
+  }
+  .msg {
+    margin: 8px 0 8px 0;
+    height: 20px;
+    position: relative;
+    display: inline-block;
+  }
+  .bar {
+    display: inline-block;
+    position: relative;
+  }
+  #res {
+    display: inline-block;
+  }
+  #msk {
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    background-color: white;
+    top: 0;
+    right: 0;
+  }
+  .ind {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    margin-right: 2px;
+    border-radius: 25%;
+  }
+  .red {
+    background-color: #f44336!important;
+  }
+  .orange {
+    background-color: #ff9800!important;
+  }
+  .yellow {
+    background-color: #ffeb3b!important;
+  }
+  .blue {
+    background-color: #2196F3!important;
+  }
+  .green {
+    background-color: #4CAF50!important;
+  }
+  #err {
+    color: white;
   }
 `
 
