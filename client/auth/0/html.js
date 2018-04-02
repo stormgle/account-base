@@ -69,7 +69,7 @@ const success = ({title, service, redirect, style}) => `
       <h2>${title}</h2>
     </header>
     <div class='container' id='success'>
-      <div class='panel'>
+      <div class='intro'>
         <p> Your password at ${service} has been updated </p>
         <p> Click <a href='${redirect}'>here</a> to login  </p>
       </div>
