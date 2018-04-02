@@ -31,14 +31,14 @@ const style = `
     color: #616161;
   }
   .panel {
+    margin: 16px 0 0 0;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
   }
   #form {
-    
     padding: 32px 16px 32px 16px;
   }
   h3 {
-    margin: 16px 0 0 0;
+    margin: 0;
     padding: 8px;
     color: #fff;
     background-color: #3498db;
