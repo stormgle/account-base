@@ -11,7 +11,7 @@ function createUser (userdb) {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      res.status(403).json({error: 'Invalidated Username or Password'});
+      res.status(400).json({error: 'Bad request'});
       return;
     }
 
