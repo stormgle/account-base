@@ -1,7 +1,7 @@
 {
-  "name": "@stormgle/user-services",
+  "name": "@stormgle/account-base",
   "version": "2.1.2",
-  "description": "Service provides user authentication utilities",
+  "description": "micro-service for managing accounts",
   "main": "api/main.js",
   "scripts": {
     "setup": "node scripts/setup",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stormgle/user-services"
+    "url": "git+https://github.com/stormgle/account-base"
   },
   "keywords": [
     "user",
@@ -27,9 +27,9 @@
   "author": "duongtdn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stormgle/user-services/issues"
+    "url": "https://github.com/stormgle/account-base/issues"
   },
-  "homepage": "https://github.com/stormgle/user-services#readme",
+  "homepage": "https://github.com/stormgle/account-base#readme",
   "devDependencies": {
     "concurrently": "^3.5.1",
     "dynamodb-local": "0.0.20",

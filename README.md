@@ -1,8 +1,8 @@
-# user-services
+# account-base
 @stormgle
 
 ## Introduction
-`user-services` is a collection of micro-services aim to manage user account. It is based on nodejs and express. Each service can be deploy as an REST API so that it is easy to scale in production or integrate with serverless platforms such as Amazon Lambda.
+`account-base` is a collection of micro-services aim to manage user accounts. It is based on nodejs and express. Each service can be deploy as an REST API so that it is easy to scale in production or integrate with serverless platforms such as Amazon Lambda.
 
 
 ## Run example demo
@@ -11,22 +11,22 @@ If you want to explore the services, run the example demo provided with this pac
 
 ### Clone package from GitHub
 
-`git clone https://github.com/stormgle/user-services`
+`git clone https://github.com/stormgle/account-base`
 
 ### Run example demo
 
 `npm run example`
 
-It will run setup script to download AWS DynamoDB Local and then start the example server at port 3100. The example server includes all provided APIs.
+It will run setup script to download AWS DynamoDB Local and then start the example server at port 3000. The example server includes all provided APIs.
 
 Open a ternimal and make a request to example server, using `curl` for example.
 
 #### Signup a new account
 
-`curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3100/user/signup`
+`curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3000/auth/signup`
 
 #### Login 
-`curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3100/user/login`
+`curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3000/auth/login`
 
 For the complete list of the API, refer section [TBD]
 
@@ -34,7 +34,7 @@ For the complete list of the API, refer section [TBD]
 
 ### Install packages
 
-`npm install --save @stormgle/user-services`
+`npm install --save @stormgle/account-base`
 
 Since the user-service uses an abstraction layer `(userdb-api)` for accessing database, We need to install a database driver. Here we will select dynamodb driver.
 
@@ -55,51 +55,13 @@ To start DynamoDB on your computer at port `3001`, assume that you have extracte
 
 `cd localdb && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -port 3001 -sharedDb` 
 
+we provided a npm script that wrapper above command:
 
-### Create `signup.server.js` 
+`npm run start:db`
 
-`signup.server.js`
+### Use the API in your own server
 
-```javascript
-"use strict"
-
-/* Define Host and Port for server and database */
-const SERVER_HOST = 'localhost';
-const SERVER_PORT = 3100;
-
-const DB_HOST = 'localhost';
-const DB_PORT = 3001;
-
-/* Import user-service helper and database driver */
-const app = require('@stormgle/user-services');
-const dynamodb = require('@stormgle/userdb-dynamodb')
-
-/* configure the driver */
-const dbDriver = dynamodb({ 
-  region : 'us-west-2', 
-  endpoint : `${DB_HOST}:${DB_PORT}`
-});
-
-/* use the driver and create function from the API, it will add the api to the express route */
-app
-  .useDbDriver(dbDriver)
-  .createFunction('/user/signup', require('@stormgle/user-services/api/user/signup'))
-
-
-/* start signup server */
-const httpServer = require('http').createServer(app);
-httpServer.listen(SERVER_PORT)
-console.log(`# Signup server is running at ${SERVER_HOST}:${SERVER_PORT}\n`);
-
-```
-
-start DynamoDB on your compiter first, then run the server:
-
-`node signup.server.js`
-
-### Create server that implement more than one API
-
-You can create a server that implement more than one API. For example, we will create `server.js` that implement both `user/signup` and `user/login`
+You can create a server that implement selected APIs. For example, we will create `server.js` that implement both `auth/signup` and `auth/login`
 
 `server.js`
 
@@ -108,7 +70,7 @@ You can create a server that implement more than one API. For example, we will c
 
 /* Define Host and Port for server and database */
 const SERVER_HOST = 'localhost';
-const SERVER_PORT = 3100;
+const SERVER_PORT = 3000;
 
 const DB_HOST = 'localhost';
 const DB_PORT = 3001;
@@ -127,10 +89,14 @@ app
   .useDbDriver(dbDriver)
 
 /* create function from the APIs, it will add the api to the express route */
-['user/signup', 'user/login']
-.forEach(api => {
-  app.createFunction(`/${api}`, require(`@stormgle/user-services/api/${api}`))
-}) 
+[
+  'post/auth/signup',
+  'post/auth/login',
+]
+.forEach(func => {
+  const { method, uri, includePath } = app.parseApi(func);
+  app.createFunction(method, uri, require(`@stormgle/account-base/api/${includePath}`))
+})  
 
 
 /* start the server */
@@ -139,3 +105,9 @@ httpServer.listen(SERVER_PORT)
 console.log(`# Server (signup & login) is running at ${SERVER_HOST}:${SERVER_PORT}\n`);
 
 ```
+
+start DynamoDB on your computer first, then run the server on another terminal:
+
+`npm run start:db`
+
+`node server.js`
