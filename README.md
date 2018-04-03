@@ -76,7 +76,7 @@ const DB_HOST = 'localhost';
 const DB_PORT = 3001;
 
 /* Import user-services helper and database driver */
-const app = require('@stormgle/user-services');
+const app = require('@stormgle/account-base');
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
 /* configure the driver */
