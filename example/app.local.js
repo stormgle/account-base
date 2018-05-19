@@ -6,7 +6,7 @@ const app = require('../api/main')
 
 const dynamodb = require('@stormgle/userdb-dynamodb')
 
-const PORT = 3000;
+const PORT = 3100;
 
 const dbDriver = dynamodb({ 
   region : 'us-west-2', 
