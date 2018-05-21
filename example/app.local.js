@@ -2,6 +2,8 @@
 
 require('dotenv').config()
 
+const cors = require('cors')
+
 const app = require('../api/main')
 
 const dynamodb = require('@stormgle/userdb-dynamodb')
@@ -23,6 +25,7 @@ const funcs = [
 ]
 
 app
+  .use(cors())
   .useDbDriver(dbDriver)
 
 funcs.forEach(func => {
@@ -67,5 +70,5 @@ app.createFunction(
 
 const httpServer = require('http').createServer(app);
 httpServer.listen(PORT)
-console.log(`# user-services is running at localhost:${PORT}\n`);
+console.log(`# user-services is running at http://localhost:${PORT}\n`);
   
