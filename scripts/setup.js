@@ -16,19 +16,3 @@ console.log('Generating new [.env] file...');
 })
 
 require('dotenv').config()
-
-// download dynamo-db local
-const DynamoDbLocal = require('dynamodb-local');
-
-DynamoDbLocal.configureInstaller({
-  installPath: './localdb',
-  downloadUrl: 'https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz'
-});
-
-DynamoDbLocal.launch(process.env.DB_PORT, null, ['shareDb'])
-  .then(function() {
-    console.log('DynamoDB is installed and ready to use')
-    DynamoDbLocal.stop(process.env.DB_PORT);
-    console.log('Setup completed')
-  })
-
