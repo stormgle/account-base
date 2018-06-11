@@ -1,36 +1,56 @@
 "use strict"
 
-const express = require('express')
-const bodyParser = require('body-parser');
+const api = require('express-api-binder')
 
-const UserDB = require('@stormgle/userdb-api');
+const funcs = [
+  'post/auth/signup',
+  'post/auth/login',
+  'post/me/update_profile',
+  'post/me/update_password',
+  'post/users/update',
+  'get/users/:username',
+];
 
-const userdb = new UserDB();
-const app = express();
+funcs.forEach(func => {
+  const { method, uri, includePath } = api.parseApi(func);
+  api.createFunction(method, uri, require(`./${includePath}`))
+}) 
 
-app
-  .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: false }))
-
-app.useDbDriver = function(dbDriver) {
-    userdb.use(dbDriver)
-    return this;
+api.createFunction(
+  'post', 
+  '/auth/forgot_password', 
+  require('./post/auth/forgot_password'), 
+  {
+    onSuccess: (token) => console.log(token.token),
+    onFailure: (err) => console.log(err)
   }
+)
 
-app.parseApi = function(api) {
-  const patt = /^\w+/i;
-  const method = `${api.match(patt)}`;          // convert to string
-  const uri = `${api.replace(patt,"")}`;
-  const includePath = `${api.replace(":","")}`;
-  return { method, uri, includePath }
-}
+const PORT = 3100;
+api.createFunction(
+  'get', 
+  '/auth/0/form', 
+  require('./get/auth/0/form'), 
+  {
+    title: 'Auth-0', 
+    body:'Hello from Auth-0 / ',
+    endPoint: `http://localhost:${PORT}/auth/reset_password`,
+    redirect: {
+      success: `http://localhost:${PORT}/`
+    }
+  }
+)
 
-app.createFunction = function(method, uri, funcs, options) {
-  const middleWares = funcs.map( (func) => {
-    return func(userdb, options)
-  })
-  app[method](uri, ...middleWares)
-  return app;
-}
+api.createFunction(
+  'post', 
+  '/auth/reset_password', 
+  require('../api/post/auth/reset_password'), 
+  {
+    title: 'Auth-0', 
+    service: 'Example',
+    redirect: `http://localhost:${PORT}/`
+  }
+)
 
-module.exports = app;
+
+module.exports = api;
