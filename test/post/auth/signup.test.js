@@ -60,10 +60,10 @@ function test (path) {
         (err, data) => {
           if (err) done(err)
           else 
-          if (data && data.status === 403 && data.body.error === 'Invalidated Username or Password') {
+          if (data && data.status === 400) {
             done()
           } else {
-            done({error: `unexpected http response status: ${data.status}, expect 403`})
+            done({error: `unexpected http response status: ${data.status}, expect 400`})
           }
         }
       )
@@ -75,10 +75,10 @@ function test (path) {
         (err, data) => {
           if (err) done(err)
           else 
-          if (data && data.status === 403 && data.body.error === 'Invalidated Username or Password') {
+          if (data && data.status === 400) {
             done()
           } else {
-            done({error: `unexpected http response status: ${data.status}, expect 403`})
+            done({error: `unexpected http response status: ${data.status}, expect 400`})
           }
         }
       )
@@ -90,10 +90,10 @@ function test (path) {
         (err, data) => {
           if (err) done(err)
           else 
-          if (data && data.status === 403 && data.body.error === 'Invalidated Username or Password') {
+          if (data && data.status === 400) {
             done()
           } else {
-            done({error: `unexpected http response status: ${data.status}, expect 403`})
+            done({error: `unexpected http response status: ${data.status}, expect 400`})
           }
         }
       )
@@ -105,10 +105,10 @@ function test (path) {
         (err, data) => {
           if (err) done(err)
           else 
-          if (data && data.status === 403 && data.body.error === 'Invalidated Username or Password') {
+          if (data && data.status === 400) {
             done()
           } else {
-            done({error: `unexpected http response status: ${data.status}, expect 403`})
+            done({error: `unexpected http response status: ${data.status}, expect 400`})
           }
         }
       )
@@ -120,10 +120,10 @@ function test (path) {
         (err, data) => {
           if (err) done(err)
           else 
-          if (data && data.status === 403 && data.body.error === 'Invalidated Username or Password') {
+          if (data && data.status === 400) {
             done()
           } else {
-            done({error: `unexpected http response status: ${data.status}, expect 403`})
+            done({error: `unexpected http response status: ${data.status}, expect 400`})
           }
         }
       )
@@ -135,10 +135,10 @@ function test (path) {
         (err, data) => {
           if (err) done(err)
           else 
-          if (data && data.status === 403 && data.body.error === 'Invalidated Username or Password') {
+          if (data && data.status === 400) {
             done()
           } else {
-            done({error: `unexpected http response status: ${data.status}, expect 403`})
+            done({error: `unexpected http response status: ${data.status}, expect 400`})
           }
         }
       )

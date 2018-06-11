@@ -8,16 +8,16 @@ const cors = require('cors')
 const api = require('../api/main')
 
 const DatabaseAbstractor = require("database-abstractor")
-const userDB = new DatabaseAbstractor();
+const userdb = new DatabaseAbstractor();
 
 const dynamodb = require('@stormgle/userdb-dynamodb-driver')
 
-userDB.use(dynamodb({ 
+userdb.use(dynamodb({ 
   region : 'us-west-2', 
   endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
 }));
 
-api.useDatabase({ userDB })
+api.useDatabase({ userdb })
 
 const app = express();
 
