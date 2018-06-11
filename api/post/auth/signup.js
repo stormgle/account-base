@@ -1,11 +1,11 @@
 "use strict"
 
 const uuid = require('uuid/v1');
+const { generateToken } = require('@stormgle/jtoken-util');
 const { serializeUser, success } = require('../../../lib/serializer');
-const { generateToken } = require('../../../lib/token');
 const { checkIfNewUser } = require('../../../lib/check');
 
-function createUser (userdb) {
+function createUser (db) {
   return function (req, res, next) {
   
     const { username, password } = req.body;
@@ -23,7 +23,7 @@ function createUser (userdb) {
       profile: { email: [username] }
     }
 
-    userdb.createUser( user, (err, user) => {
+    db.userdb.createUser( user, (err, user) => {
       if (err) {
         res.status(500).json({error: 'Internal error'});
       } else {

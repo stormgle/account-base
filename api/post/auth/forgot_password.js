@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 
 const secret = process.env.DELIGATE_KEY_FORGOT_PASSWORD;
 
-function generateToken(userdb, { onSuccess, onFailure }) {
+function generateToken(db, { onSuccess, onFailure }) {
   return function(req, res, next) {
     const email = req.body.email;
     if (!email) {
@@ -12,7 +12,7 @@ function generateToken(userdb, { onSuccess, onFailure }) {
       onFailure && onFailure({error: 'Bad request: must specify email'})
     }
     
-    userdb.queryUser(
+    db.userdb.queryUser(
       { username: email },
       (err, user) => {
         if (err) {
@@ -37,7 +37,7 @@ function generateToken(userdb, { onSuccess, onFailure }) {
   }
 }
 
-function final(userdb, { onSuccess, onFailure }) {
+function final(db, { onSuccess, onFailure }) {
   return function(req, res) {
     res.status(200).json({email: req.body.email});
     onSuccess && onSuccess({token: req.token});

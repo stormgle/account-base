@@ -1,10 +1,9 @@
 "use strict"
 
+const { generateToken } = require('@stormgle/jtoken-util');
 const { checkIfUserExist } = require('../../../lib/check');
 const { authenticateByPassword } = require('../../../lib/authen')
 const { serializeUser, success } = require('../../../lib/serializer');
-const { generateToken } = require('../../../lib/token');
-
 
 function authen() {
   return authenticateByPassword

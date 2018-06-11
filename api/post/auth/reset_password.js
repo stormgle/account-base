@@ -1,6 +1,6 @@
 "use strict"
 
-const { verifyToken } = require('../../../lib/token');
+const { verifyToken } = require('@stormgle/jtoken-util');
 
 const html = require('../../../client/auth/0/html');
 const style = require('../../../client/auth/0/style');
@@ -11,13 +11,13 @@ function authen() {
   return verifyToken(secret)
 }
 
-function update(userdb, {title, service, redirect}) {
+function update(db, {title, service, redirect}) {
   return function(req, res) {
     const uid = req.user.uid;
     const login = req.body.login;
 
     if (login && login.password) {
-      userdb.update(uid, { login }, (err, data) => {
+      db.userdb.update(uid, { login }, (err, data) => {
         if (err) {
           res.status(403).send();
         } else {

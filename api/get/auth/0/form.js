@@ -27,7 +27,7 @@ function authen() {
   }
 }
 
-function renderHTML(userdb, {title, body, endPoint}) {
+function renderHTML(db, {title, body, endPoint}) {
   return function(req, res) {
     const token = req.query.t;
     const script = js.form({token, endPoint});

@@ -1,12 +1,11 @@
 "use strict"
 
 const cwd = process.cwd();
-const TestServer = require(`${cwd}/test/server`)
-const { Connect, getAdminUser } = require(`${cwd}/test/util`)
+const { Connect, getAdminUserToken } = require(`${cwd}/test/util`)
 
 let userToken = {};
 
-const username = 'tester@team.com';
+const username = 'tester.testSignup@team.com';
 const password = '123456';
 
 function signupUser(conn) {
@@ -28,10 +27,6 @@ function signupUser(conn) {
 
 function test(path) {
 
-  const server = {
-    signup: new TestServer('post/auth/signup'),
-    test: new TestServer(path)
-  }
 
   const patt = /^\w+/i;
   const method = `${path.match(patt)}`.toUpperCase();
@@ -47,31 +42,16 @@ function test(path) {
     });
 
     before(function(done) {
-      server.signup.start(function() {
-        // create a new user used for testing
-        const conn = new Connect({
-          hostname: 'localhost',
-          port: process.env.PORT_AUTH_SIGNUP,
-          path: 'post/auth/signup'
-        });
-
-        signupUser(conn)
-          .then(() => {
-            server.signup.close();
-            server.test.start(done);
-          })
-
-      });
-    })
-
-    after(function() {
-      server.test.close();
+      signupUser(conn)
+        .then(() => {
+          done();
+        })
     })
 
     it('admin query user with correct username', function(done) {
       conn.request(
         username,
-        getAdminUser().tokens.admin,
+        getAdminUserToken().tokens.admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {
@@ -90,7 +70,7 @@ function test(path) {
     it('admin query user with incorrect username', function(done) {
       conn.request(
         'incorrect-username@test.com',
-        getAdminUser().tokens.admin,
+        getAdminUserToken().tokens.admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {

@@ -3,7 +3,7 @@
 const { checkIfUserExist } = require('../../../lib/check');
 const { authenticateByPassword } = require('../../../lib/authen')
 
-function update(userdb) {
+function update(db) {
   return function (req, res) {
     const user = req.user;
     const login = req.body.login;

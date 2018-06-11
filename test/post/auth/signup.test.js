@@ -1,12 +1,9 @@
 "use strict"
 
 const cwd = process.cwd();
-const TestServer = require(`${cwd}/test/server`)
 const { Connect } = require(`${cwd}/test/util`)
 
 function test (path) {
-
-  const server = new TestServer(path);
 
   const patt = /^\w+/i;
   const method = `${path.match(patt)}`.toUpperCase();
@@ -16,17 +13,10 @@ function test (path) {
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_AUTH_SIGNUP,
+      port: process.env.PORT_LOCAL_TEST,
       path
     });
   
-    before(function(done) {
-      server.start(done);
-    })
-  
-    after(function() {
-      server.close();
-    })
   
     it('create new user', function(done) {
       conn.request(

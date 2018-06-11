@@ -1,17 +1,17 @@
 "use strict"
 
-const { verifyToken } = require('../../../lib/token')
+const { verifyToken } = require('@stormgle/jtoken-util')
 const { serializeQueriedUser } = require('../../../lib/serializer')
 
 const secret = process.env.AUTH_KEY_ADMIN;
 
-function queryUser(userdb) {
+function queryUser(db) {
   return function (req, res, next) {
     const uid = req.user.uid;
     const username = req.params.username;
 
     if (username && username.length > 0) {
-      userdb.queryUser({ username }, ((err, user) => {
+      db.userdb.queryUser({ username }, ((err, user) => {
         if (err) {
           res.status(400).send();
         } else {

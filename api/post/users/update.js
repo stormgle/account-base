@@ -1,6 +1,6 @@
 "use strict"
 
-const { verifyToken } = require('../../../lib/token')
+const { verifyToken } = require('@stormgle/jtoken-util')
 
 const secret = process.env.AUTH_KEY_ADMIN;
 
@@ -17,15 +17,14 @@ function sanitize(update) {
   return update;
 }
 
-function update(userdb) {
+function update(db) {
   return function (req, res) {
     const uid = req.user.uid;
     const update = req.body.update;
 
     if (typeof update === 'object' && update.uid) {
-      update.profile = {email: ['hacker@news.com']};
       sanitize(update);
-      userdb.update(uid, update, (err, data) => {
+      db.userdb.update(uid, update, (err, data) => {
         if (err) {
           console.log(err)
           res.status(403).json(err)
