@@ -11,7 +11,7 @@
     "db:start": "npm run docker:db",
     "local": "concurrently \"npm run db:start\" \"nodemon example/app.local.js\"",
     "example": "npm run setup && npm run local",
-    "test": "mocha test/test.js"
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
   "dependencies": {
     "express-api-binder": "^1.1.0",
     "@stormgle/jtoken-util": "^1.0.0",
+    "jsonwebtoken": "^8.2.1",
     "uuid": "^3.2.1"
   }
 }
