@@ -1,33 +1,21 @@
 "use strict"
 
 const cwd = process.cwd();
-const TestServer = require(`${cwd}/test/server`)
 const { Connect } = require(`${cwd}/test/util`)
-
 
 function test(path) {
 
-    const server = new TestServer(path);
-
-    const patt = /^\w+/i;
-    const method = `${path.match(patt)}`.toUpperCase();
-    const uri = path.replace(patt,"");
+  const patt = /^\w+/i;
+  const method = `${path.match(patt)}`.toUpperCase();
+  const uri = path.replace(patt,"");
 
   return describe(`${method} ${uri}`, function(){
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_AUTH_LOGIN,
+      port: process.env.PORT_LOCAL_TEST,
       path
     });
-  
-    before(function(done) {
-      server.start(done);
-    })
-  
-    after(function() {
-      server.close();
-    })
 
     it('login normal user with correct credential', function(done) {
       conn.request(
@@ -101,7 +89,7 @@ function test(path) {
             if (data.status >= 500) {
               done({error: `${data.status} - internal server error`})
             } 
-            else if (data.status === 403) {
+            else if (data.status === 400) {
               done()
             } else {
               done({error: `unexpected http response status: ${data.status}`})
@@ -122,7 +110,7 @@ function test(path) {
             if (data.status >= 500) {
               done({error: `${data.status} - internal server error`})
             } 
-            else if (data.status === 403) {
+            else if (data.status === 400) {
               done()
             } else {
               done({error: `unexpected http response status: ${data.status}`})
@@ -143,7 +131,7 @@ function test(path) {
             if (data.status >= 500) {
               done({error: `${data.status} - internal server error`})
             } 
-            else if (data.status === 403) {
+            else if (data.status === 400) {
               done()
             } else {
               done({error: `unexpected http response status: ${data.status}`})
