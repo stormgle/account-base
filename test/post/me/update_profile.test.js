@@ -1,15 +1,9 @@
 "use strict"
 
 const cwd = process.cwd();
-const TestServer = require(`${cwd}/test/server`)
 const { Connect } = require(`${cwd}/test/util`)
 
 function test(path) {
-
-  const server = {
-    signup: new TestServer('post/auth/signup'),
-    profile: new TestServer(path)
-  }
 
   const patt = /^\w+/i;
   const method = `${path.match(patt)}`.toUpperCase();
@@ -21,36 +15,29 @@ function test(path) {
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_ME_UPDATE_PROFILE,
+      port: process.env.PORT_LOCAL_TEST,
       path
     });
   
     before(function(done) {
-      server.signup.start(function() {
-        // create a new user used for testing
-        const conn = new Connect({
-          hostname: 'localhost',
-          port: process.env.PORT_AUTH_SIGNUP,
-          path: 'post/auth/signup'
-        });
-        conn.request(
-          {username: 'tester@update-profile.com', password: '123456'}, 
-          (err, data) => {
-            if (err) done(err)
-            else if (data) {
-              token = data.body.tokens.account;
-              server.signup.close();
-              server.profile.start(done);
-            } else {
-              done({error: 'failed to signup new user for test'})
-            }
-          }
-        )
+      // create a new user used for testing
+      const conn = new Connect({
+        hostname: 'localhost',
+        port: process.env.PORT_LOCAL_TEST,
+        path: 'post/auth/signup'
       });
-    })
-  
-    after(function() {
-      server.profile.close();
+      conn.request(
+        {username: 'tester@update-profile.com', password: '123456'}, 
+        (err, data) => {
+          if (err) done(err)
+          else if (data) {
+            token = data.body.tokens.account;
+            done();
+          } else {
+            done({error: 'failed to signup new user for test'})
+          }
+        }
+      )
     })
 
     it('update profile using correct bearer token', function(done) {

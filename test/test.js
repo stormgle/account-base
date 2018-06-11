@@ -11,7 +11,7 @@ const test = Test([
   'post/auth/signup',
   'post/auth/login',
 
-  // 'post/me/update_profile',
+  'post/me/update_profile',
   // 'post/me/update_password',
 
   // 'post/users/update'
