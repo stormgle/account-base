@@ -1,11 +1,12 @@
 "use strict"
 
 const { spawn } = require('child_process')
-const userdb = require('../scripts/userdb')
 
-const db = {
+const dbHelper = {
 
   _proc: null,
+
+  _instance: {},
 
   start() {
     console.log('Starting database...\n')
@@ -15,10 +16,32 @@ const db = {
     return this;
   },
 
+  add(instance) {
+    this._instance = {...instance, ...this._instance}
+    return this;
+  },
+
   init(done) {
     const host = 'http://localhost';
     const port = 3001;
-    userdb.use({host,port}).init(done);
+
+    const _done = [];
+    Object.keys(this._instance).forEach(key => {
+      _done[key] = false;
+    })
+
+    Object.keys(this._instance).forEach(key => {
+      this._instance[key].use({host,port}).init(() => _complete(key));
+    })
+
+    function _complete(key) {
+      _done[key] = true;
+      const _cmplt = true;
+      Object.keys(_done).forEach(k => {
+        if (!_done[k]) _cmplt = false;
+      })
+      if (_cmplt) done()
+    }
     return this;
   },
 
@@ -26,8 +49,12 @@ const db = {
     console.log('\nClosing database...\n')
     this._proc.kill();
     return this;
+  },
+
+  getInstance(name) {
+    return this._instance[name]
   }
 
 }
 
-module.exports = db;
+module.exports = dbHelper;
