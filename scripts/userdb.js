@@ -67,7 +67,7 @@ module.exports = {
           done && done();
         });
       } else {
-        return this._getUsersFromDB();
+        return this._getUsersFromDB(done);
       }
     } else {
       this.queue.push({name: 'init', args: [done]})
@@ -189,12 +189,13 @@ module.exports = {
     return this;
   },
 
-  _getUsersFromDB() {
+  _getUsersFromDB(done) {
     console.log('Retrieving users...')
     const users = ['super', 'admin', 'tester'];
     users.forEach(username => {
       userdb.queryUser({username}, (err, user) => {
         this._users[username] = user;
+        done();
       })
     })
     return this;
