@@ -2,8 +2,8 @@
 
 require('dotenv').config()
 
-const db = require('./db')
-const userdb = require('../scripts/userdb')
+const db = require('database-test-helper')
+const userdb = require('@stormgle/userdb-test-helper')
 
 const server = require('./server')
 const { Test } = require('./util')

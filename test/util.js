@@ -2,7 +2,7 @@
 
 const http = require('http')
 
-const userdb = require('../scripts/userdb')
+const userdb = require('@stormgle/userdb-test-helper')
 
 function _clone(obj) {
   const clonedObj = {};
