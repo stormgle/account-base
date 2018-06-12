@@ -1,6 +1,6 @@
 {
   "name": "@stormgle/account-base",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "micro-service for managing accounts",
   "main": "api/main.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "db:start": "npm run docker:db",
     "local": "concurrently \"npm run db:start\" \"nodemon example/app.local.js\"",
     "example": "npm run setup && npm run local",
-    "test": "clear && mocha test"
+    "test": "clear && npm run setup && mocha test"
   },
   "repository": {
     "type": "git",

@@ -13,12 +13,12 @@ function signupUser(conn) {
     conn.request(
       { username, password }, 
       (err, data) => {
-        if (err) done(err)
+        if (err) reject(err)
         else if (data) {
           userToken = data.body.tokens.account;
           resolve()
         } else {
-          done({error: 'failed to signup new user for test'})
+          reject({error: 'failed to signup new user for test'})
         }
       }
     )
@@ -37,11 +37,16 @@ function test(path) {
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_USERS_USERNAME,
+      port: process.env.PORT_LOCAL_TEST,
       path
     });
 
     before(function(done) {
+      const conn = new Connect({
+        hostname: 'localhost',
+        port: process.env.PORT_LOCAL_TEST,
+        path: 'post/auth/signup'
+      });
       signupUser(conn)
         .then(() => {
           done();
@@ -51,7 +56,7 @@ function test(path) {
     it('admin query user with correct username', function(done) {
       conn.request(
         username,
-        getAdminUserToken().tokens.admin,
+        getAdminUserToken().admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {
@@ -70,7 +75,7 @@ function test(path) {
     it('admin query user with incorrect username', function(done) {
       conn.request(
         'incorrect-username@test.com',
-        getAdminUserToken().tokens.admin,
+        getAdminUserToken().admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {
