@@ -5,11 +5,11 @@
   "main": "api/main.js",
   "scripts": {
     "setup": "node scripts/setup",
-    "docker:db": "docker run -v \"$PWD\":/dynamodb_local_db -p 3001:8000 --network sam-local cnadiminti/dynamodb-local",
+    "docker:db": "docker run -v \"$PWD\":/dynamodb_local_db -p 3001:8000  cnadiminti/dynamodb-local",
     "db:reset": "concurrently \"npm run db:start\" \"node scripts/resetDatabase.js\" ",
     "db:init": "concurrently \"npm run db:start\" \"node scripts/initDatabase.js\" ",
     "db:start": "npm run docker:db",
-    "local": "concurrently \"npm run db:start\" \"nodemon example/app.local.js\"",
+    "local": "concurrently \"npm run db:start\" \"nodemon example/server.local.js\"",
     "example": "npm run setup && npm run local",
     "test": "clear && npm run setup && mocha test"
   },
@@ -30,6 +30,8 @@
   "devDependencies": {
     "@stormgle/userdb-dynamodb-driver": "^1.0.3",
     "database-abstractor": "^1.0.0",
+    "database-test-helper": "^1.0.0",
+    "@stormgle/userdb-test-helper": "^1.0.0",
     "concurrently": "^3.5.1",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
