@@ -1,8 +1,7 @@
 "use strict"
 
 const cwd = process.cwd();
-const TestServer = require(`${cwd}/test/server`)
-const { Connect, getAdminUser } = require(`${cwd}/test/util`)
+const { Connect, getAdminUserToken } = require(`${cwd}/test/util`)
 
 const username = 'tester@users-update.com';
 const password = '123456';
@@ -18,44 +17,27 @@ function test(path) {
   const method = `${path.match(patt)}`.toUpperCase();
   const uri = path.replace(patt,"");
 
-  const server = {
-    signup: new TestServer('post/auth/signup'),
-    user: {
-      get: new TestServer('get/users/username'),
-      update: new TestServer('post/users/update')
-    }
-  }
-
   return describe(`${method} ${uri}`, function(){
 
     const conn = new Connect({
       hostname: 'localhost',
-      port: process.env.PORT_USERS_UPDATE,
+      port: process.env.PORT_LOCAL_TEST,
       path
     });
 
     before(function(done) {
-      server.signup.start(function() {
-        // create a new user used for testing
-        const conn = new Connect({
-          hostname: 'localhost',
-          port: process.env.PORT_AUTH_SIGNUP,
-          path: 'post/auth/signup'
-        });
-
-        signupUser(conn)
-          .then(getUser)
-          .then(() => {
-            server.signup.close();
-            server.user.get.close();
-            server.user.update.start(done);
-          })
-
+      // create a new user used for testing
+      const conn = new Connect({
+        hostname: 'localhost',
+        port: process.env.PORT_LOCAL_TEST,
+        path: 'post/auth/signup'
       });
-    })
 
-    after(function() {
-      server.user.update.close();
+      signupUser(conn)
+        .then(getUser)
+        .then(() => {
+          done()
+      });
     })
 
     it('admin update user status', function(done) {
@@ -63,7 +45,7 @@ function test(path) {
         {
           update: {uid: userId, verified: true }
         },
-        getAdminUser().tokens.admin,
+        getAdminUserToken().admin,
         (err, data) => {
           if (err) done(err)
           else if (data) {
@@ -110,12 +92,12 @@ function test(path) {
       conn.request(
         {username, password}, 
         (err, data) => {
-          if (err) done(err)
+          if (err) reject(err)
           else if (data) {
             userToken = data.body.tokens.account;
             resolve()
           } else {
-            done({error: 'failed to signup new user for test'})
+            reject({error: 'failed to signup new user for test'})
           }
         }
       )
@@ -126,24 +108,23 @@ function test(path) {
     return new Promise((resolve, reject) => {
       const conn = new Connect({
         hostname: 'localhost',
-        port: process.env.PORT_USERS_USERNAME,
+        port: process.env.PORT_LOCAL_TEST,
         path: `get/users/:username`
       });
-      server.user.get.start(() => {
-        conn.request(
-          username, 
-          getAdminUser().tokens.admin,
-          (err, data) => {
-            if (err) done(err)
-            else if (data) {
-              userId = data.body.user.uid;
-              resolve()
-            } else {
-              done({error: 'failed to signup new user for test'})
-            }
+      conn.request(
+        username, 
+        getAdminUserToken().admin,
+        (err, data) => {
+          if (err) reject(err)
+          else if (data) {
+            userId = data.body.user.uid;
+            resolve()
+          } else {
+            reject({error: 'failed to signup new user for test'})
           }
-        )
-      })
+        }
+      )
+
       
     })
   }
