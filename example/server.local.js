@@ -1,6 +1,5 @@
 "use strict"
 
-const express = require('express')
 const app = require('./app.local')
 
 const PORT = process.env.PORT_LOCAL_TEST;
