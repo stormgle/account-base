@@ -14,6 +14,7 @@ function authen() {
 
     if (!token) {
       res.status(400).send();
+      return
     }
 
     jwt.verify(token, secret, function(err, decoded) {

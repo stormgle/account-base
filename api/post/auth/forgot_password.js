@@ -9,7 +9,8 @@ function generateToken(db, { onSuccess, onFailure }) {
     const email = req.body.email;
     if (!email) {
       res.status(400).json({error: 'Bad request: must specify email'});
-      onFailure && onFailure({error: 'Bad request: must specify email'})
+      onFailure && onFailure({error: 'Bad request: must specify email'});
+      return
     }
     
     db.userdb.queryUser(
