@@ -15,6 +15,4 @@ console.log('Generating new [.env] file...');
     .pipe(fs.createWriteStream('.env', {'flags': 'a'}));
 })
 
-console.log('Finished setup')
-
 require('dotenv').config()

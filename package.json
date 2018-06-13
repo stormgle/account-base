@@ -4,12 +4,12 @@
   "description": "micro-service for managing accounts",
   "main": "api/main.js",
   "scripts": {
-    "setup": "node scripts/setup",
+    "env": "node scripts/env",
     "docker:db": "docker run -v \"$PWD\":/dynamodb_local_db -p 3001:8000  cnadiminti/dynamodb-local",
     "db:start": "npm run docker:db",
     "local": "node example/server.local.js",
-    "example": "npm run setup && npm run local",
-    "test": "clear && npm run setup && mocha test"
+    "example": "npm run env && npm run local",
+    "test": "clear && npm run env && mocha test"
   },
   "repository": {
     "type": "git",
