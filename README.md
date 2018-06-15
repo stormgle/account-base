@@ -2,31 +2,38 @@
 @stormgle
 
 ## Introduction
-`account-base` is a collection of micro-services aim to manage user accounts. It is based on nodejs and express. Each service can be deploy as an REST API so that it is easy to scale in production or integrate with serverless platforms such as Amazon Lambda.
+`account-base` is a service based on nodejs and express aimed to support user accounts management. It adopted *token-based authentication* as its core. The package exports a REST api singleton so that it can be easily integrated with serverless platforms such as Amazon Lambda.
 
+## Prequisition
+
+Docker is required to run the local database in the example. 
 
 ## Run example demo
 
-If you want to explore the services, run the example demo provided with this package.
+If you want to explore the service, run the example demo provided with this package.
 
 ### Clone package from GitHub
 
 `git clone https://github.com/stormgle/account-base`
 
+### Install all dependencies
+
+`npm install`
+
 ### Run example demo
 
 `npm run example`
 
-It will run setup script to download AWS DynamoDB Local and then start the example server at port 3000. The example server includes all provided APIs.
+It will setup the environment variables. Run docker and install the necessary image if not installed yet. Then, it starts the local database service from docker, create USERS Collection and add three initial documents for Super-Admin, Admin and Tester users. Eventually, it starts the API Server at port `3100`.
 
-Open a ternimal and make a request to example server, using `curl` for example.
+After the server is started and running. Open a ternimal and make a request to the example server, using `curl` for example.
 
 #### Signup a new account
 
-`curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3000/auth/signup`
+`curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3100/auth/signup`
 
 #### Login 
-`curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3000/auth/login`
+`curl -H "Content-Type: application/json" -X POST -d '{"username":"tester@test-team.com","password":"123456"}' http://localhost:3100/auth/login`
 
 For the complete list of the API, refer section [TBD]
 
@@ -36,78 +43,170 @@ For the complete list of the API, refer section [TBD]
 
 `npm install --save @stormgle/account-base`
 
-Since the user-service uses an abstraction layer `(userdb-api)` for accessing database, We need to install a database driver. Here we will select dynamodb driver.
+To loose coupling the database with the api. I use `database-abstractor` package when designing the api. At the time you create and use the api, you need to install a database driver. Here I will install the dynamodb driver for example .
 
-`npm install --save @stormgle/userdb-dynamodb`
+`npm install --save @stormgle/userdb-dynamodb-driver`
 
-### Setup environment for local development
+Curentlly, I only designed the dynamodb driver packages. More drivers will be supported in future.
 
-If you use AWS DynamoDB Web Service. You only need to configure your `aws credential` provided by AWS.
+If you want to change the example server `PORT`, edit the `PORT_LOCAL_TEST` in `./env/.env.test` file.
 
-If you want to use AWS DynamoDB Local for development, you need to download the [downloadable version of DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html) and extract it into your workspace (under `./localdb` for example). You still need to configure `aws credential` for accessing DynamoDB programmatically. Simply setup these two keys in your environment variable:
+### Setup environment
+
+I use `dotenv` to supply the environment variables during development. `./env/.keys` stores the secret keys for token generation as well as validation. `./env/.env.test` stores environment variables to support unit testing and local example server. Running `npm run env` will concatenate those two files into `.env` file.
+
+It is recommended that you setup the environment variables natively. However, if you're interesting in using `dotenv` *(since it's perfectly fine in production)*, remember do NOT commit your changes in `.env.test` and `.keys` to a public repository like github as they are store sensitive information about your system.
+
+The following enviroment variables are required when production:
 
 ```
-AWS_ACCESS_KEY_ID = whatever_you_want_it_is_not_important
+AUTH_KEY_ACCOUNT=/* this is secret key for user service - role user */
+AUTH_KEY_ADMIN=/* this is secret key for user service - role admin */
+AUTH_KEY_SUPER=/* this is secret key for user service - role super admin */
 
-AWS_SECRET_ACCESS_KEY = whatever_you_want_it_is_not_important
+DELIGATE_KEY_FORGOT_PASSWORD=/* this is secret key use when user forgot password */
+
+POLICY_SUPER="super admin account"
+POLICY_ADMIN="admin"
+POLICY_USER="account"
+
+PWD_PREFIX=prefix-to-password
+PWD_SUFFIX=suffix-to-password
 ```
-To start DynamoDB on your computer at port `3001`, assume that you have extracted dynamodb into `./localdb`
 
-`cd localdb && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -port 3001 -sharedDb` 
+If you use AWS DynamoDB Web Service. You also need to configure your `aws credential` provided by AWS.
 
-we provided a npm script that wrapper above command:
+```
+AWS_ACCESS_KEY_ID = provide_by_aws_or_whatever_you_want_if_work_local
 
-`npm run start:db`
+AWS_SECRET_ACCESS_KEY = provide_by_aws_or_whatever_you_want_if_work_local
+```
 
-### Use the API in your own server
+### Create API Server
 
-You can create a server that implement selected APIs. For example, we will create `server.js` that implement both `auth/signup` and `auth/login`
+Require the api in your server
 
-`server.js`
+```javascript
+const api = require('account-base')
+```
+You also need to let the api know which database driver is used.
+
+```javascript
+const DatabaseAbstractor = require("database-abstractor")
+const userdb = new DatabaseAbstractor();
+
+const dynamodb = require('@stormgle/userdb-dynamodb-driver')
+
+userdb.use(dynamodb({ 
+  region : 'us-west-2', 
+  endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
+}));
+
+api.useDatabase({ userdb });
+```
+
+Then we create API functions using `generateFunctions `. Some functions accept options to let you have flexibitity to configure them. In this example, we create API functions with options for three APIs functions `POST /auth/forgot_password`. `POST /auth/reset_password` and `GET auth/0/form`.
+
+```javascript
+const PORT = process.env.PORT_LOCAL_TEST || 3100;
+
+const forgotPassword = {
+  onSuccess: (token) => console.log(token.token),
+  onFailure: (err) => console.log(err)
+};
+
+const form = {
+  title: 'Auth-0', 
+  body:'Hello from Auth-0 / ',
+  endPoint: `http://localhost:${PORT}/auth/reset_password`,
+  redirect: {
+    success: `http://localhost:${PORT}/`
+  }
+};
+
+const reset = {
+  title: 'Auth-0', 
+  service: 'Example',
+  redirect: `http://localhost:${PORT}/`
+}
+
+api.createFunctions({forgotPassword, form, reset})
+```
+
+`createFunction` return an express route that you can use in your server
+
+```javascript
+const express = require('express')
+const cors = require('cors')
+
+const app = express();
+
+app
+  .use(cors())
+  .use('/', api)
+
+const httpServer = require('http').createServer(app);
+httpServer.listen(PORT);
+
+```
+
+Compile all code pieces together
 
 ```javascript
 "use strict"
 
-/* Define Host and Port for server and database */
-const SERVER_HOST = 'localhost';
-const SERVER_PORT = 3000;
+require('dotenv').config()
 
-const DB_HOST = 'localhost';
-const DB_PORT = 3001;
+const express = require('express')
+const cors = require('cors')
 
-/* Import user-services helper and database driver */
-const app = require('@stormgle/account-base');
-const dynamodb = require('@stormgle/userdb-dynamodb')
+const api = require('../api/main')
 
-/* configure the driver */
-const dbDriver = dynamodb({ 
+const DatabaseAbstractor = require("database-abstractor")
+const userdb = new DatabaseAbstractor();
+
+const dynamodb = require('@stormgle/userdb-dynamodb-driver')
+
+userdb.use(dynamodb({ 
   region : 'us-west-2', 
-  endpoint : `${DB_HOST}:${DB_PORT}`
-});
+  endpoint : `${process.env.DB_HOST}:${process.env.DB_PORT}`
+}));
+
+const PORT = process.env.PORT_LOCAL_TEST || 3100;
+
+const forgotPassword = {
+  onSuccess: (token) => console.log(token.token),
+  onFailure: (err) => console.log(err)
+};
+
+const form = {
+  title: 'Auth-0', 
+  body:'Hello from Auth-0 / ',
+  endPoint: `http://localhost:${PORT}/auth/reset_password`,
+  redirect: {
+    success: `http://localhost:${PORT}/`
+  }
+};
+
+const reset = {
+  title: 'Auth-0', 
+  service: 'Example',
+  redirect: `http://localhost:${PORT}/`
+}
+
+api.useDatabase({ userdb })
+   .generateFunctions({forgotPassword, form, reset});
+
+const app = express();
 
 app
-  .useDbDriver(dbDriver)
-
-/* create function from the APIs, it will add the api to the express route */
-[
-  'post/auth/signup',
-  'post/auth/login',
-]
-.forEach(func => {
-  const { method, uri, includePath } = app.parseApi(func);
-  app.createFunction(method, uri, require(`@stormgle/account-base/api/${includePath}`))
-})  
+  .use(cors())
+  .use('/', api)
 
 
-/* start the server */
 const httpServer = require('http').createServer(app);
-httpServer.listen(SERVER_PORT)
-console.log(`# Server (signup & login) is running at ${SERVER_HOST}:${SERVER_PORT}\n`);
-
+httpServer.listen(PORT);
 ```
 
-start DynamoDB on your computer first, then run the server on another terminal:
 
-`npm run start:db`
 
-`node server.js`
