@@ -24,7 +24,7 @@ If you want to explore the service, run the example demo provided with this pack
 
 `npm run example`
 
-It will setup the environment variables. Run docker and install the necessary image if not installed yet. Then, it starts the local database service from docker, create USERS Collection and add three initial documents for Super-Admin, Admin and Tester users. Eventually, it starts the API Server at port `3100`.
+It will setup environment variables. Run docker and install the necessary image if not installed yet. Then, it starts the local database service from docker, create USERS Collection and add three initial documents for Super-Admin, Admin and Tester users. Eventually, it starts the API Server at port `3100`.
 
 After the server is started and running. Open a ternimal and make a request to the example server, using `curl` for example.
 
@@ -43,13 +43,13 @@ For the complete list of the API, refer section [TBD]
 
 `npm install --save @stormgle/account-base`
 
-To loose coupling the database with the api. I use `database-abstractor` package when designing the api. At the time you create and use the api, you need to install a database driver. Here I will install the dynamodb driver for example .
+To loose coupling the database with the api. I've used `database-abstractor`. At the time you create and use the api, you need to install a database driver. Here I will install the dynamodb driver for example .
 
 `npm install --save @stormgle/userdb-dynamodb-driver`
 
-Curentlly, I only designed the dynamodb driver packages. More drivers will be supported in future.
+Curently, I only designed the dynamodb driver packages. More drivers will be supported in future.
 
-If you want to change the example server `PORT`, edit the `PORT_LOCAL_TEST` in `./env/.env.test` file.
+If you want to change `PORT` number of the example server, edit the `PORT_LOCAL_TEST` in `./env/.env.test` file.
 
 ### Setup environment
 
@@ -77,9 +77,9 @@ PWD_SUFFIX=suffix-to-password
 If you use AWS DynamoDB Web Service. You also need to configure your `aws credential` provided by AWS.
 
 ```
-AWS_ACCESS_KEY_ID = provide_by_aws_or_whatever_you_want_if_work_local
+AWS_ACCESS_KEY_ID=provide_by_aws_or_whatever_you_want_if_work_local
 
-AWS_SECRET_ACCESS_KEY = provide_by_aws_or_whatever_you_want_if_work_local
+AWS_SECRET_ACCESS_KEY=provide_by_aws_or_whatever_you_want_if_work_local
 ```
 
 ### Create API Server
@@ -105,7 +105,7 @@ userdb.use(dynamodb({
 api.useDatabase({ userdb });
 ```
 
-Then we create API functions using `generateFunctions `. Some functions accept options to let you have flexibitity to configure them. In this example, we create API functions with options for three APIs functions `POST /auth/forgot_password`. `POST /auth/reset_password` and `GET auth/0/form`.
+Then we create API functions using `generateFunctions `. Some functions accept options to let you have flexibitity to configure them. In this example, we create API functions with options for `POST /auth/forgot_password`. `POST /auth/reset_password` and `GET auth/0/form`.
 
 ```javascript
 const PORT = process.env.PORT_LOCAL_TEST || 3100;
