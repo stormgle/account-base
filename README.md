@@ -8,6 +8,38 @@
 
 Docker is required to run the local database in the example. 
 
+After install docker, remember to add your current user to the `docker` group:
+
+`sudo usermod -a -G docker $USER`
+
+If you are running docker behide a coporate proxy. Follow below steps to add proxy into docker environment.  
+(*linux*)
+
+1.	Create a systemd drop-in directory for the docker service
+
+    `$ sudo mkdir -p /etc/systemd/system/docker.service.d`
+
+1.	Create a file called `/etc/systemd/system/docker.service.d/http-proxy.conf` that adds the `HTTP_PROXY` and `HTTPS_PROXY` environment variable:
+
+    ```
+      [Service]
+      Environment="HTTP_PROXY=http://proxy.example.com:80/"
+      Environment="HTTPS_PROXY=http://proxy.example.com:80/"
+    ```
+
+1. Flush changes
+
+    `$ sudo systemctl daemon-reload`
+
+1. Restart docker
+
+    `$ sudo systemctl restart docker`
+
+1. Verify that the configuration has been loaded
+
+    `$ systemctl show --property=Environment docker`
+
+
 ## Run example demo
 
 If you want to explore the service, run the example demo provided with this package.
