@@ -11,6 +11,7 @@ if (fs.existsSync('./.env')) {
 console.log('Generating new [.env] file...');
 
 ['.keys', '.env.test'].forEach( (env) => {
+  console.log(`  appending ${env}`)
   fs.createReadStream(`./env/${env}`)
     .pipe(fs.createWriteStream('.env', {'flags': 'a'}));
 })
