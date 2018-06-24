@@ -30,7 +30,6 @@
     "database-abstractor": "^1.0.0",
     "database-test-helper": "^1.0.0",
     "@stormgle/userdb-test-helper": "^1.0.0",
-    "concurrently": "^3.5.1",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "body-parser": "^1.18.2",
