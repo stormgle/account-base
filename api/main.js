@@ -10,6 +10,7 @@ api.generateFunctions = ({forgotPassword, form, reset}) => {
     'post/me/update_profile',
     'post/me/update_password',
     'post/users/update',
+    'post/check/user',
     'get/users/:username',
   ];
   
