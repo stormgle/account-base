@@ -16,7 +16,8 @@ function queryUser(db) {
             };
             next();
           } else {
-            res.status(404).json('resource not found')
+            req.user = null;
+            next();
           }      
         }
       }))
