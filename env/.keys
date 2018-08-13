@@ -6,6 +6,7 @@ AUTH_KEY_SUPER=/* this is secret key for user service - role super admin */
 AUTH_KEY_LEARNDESK=/* this is secret key for learndesk server - role user */
 
 DELIGATE_KEY_FORGOT_PASSWORD=/* this is secret key for deligated action */
+DELIGATE_KEY_ADMIN_SERVER=/* this is secret key for deligated role admin to server */
 
 POLICY_SUPER="super admin account"
 POLICY_ADMIN="admin"
