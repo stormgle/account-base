@@ -10,7 +10,7 @@ const secret = process.env.DELIGATE_KEY_ADMIN_SERVER;
 function queryUser(db) {
   return function (req, res, next) {
     const uid = req.params.uid;
-console.log(uid)
+
     if (uid && uid.length > 0) {
       db.userdb.queryUser({ uid }, ((err, user) => {
         if (err) {
