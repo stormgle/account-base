@@ -12,7 +12,7 @@ api.generateFunctions = ({forgotPassword, form, reset}) => {
     'post/users/update',
     'post/check/user',
     'get/users/:username',
-    'get/users/:uid'
+    'get/users/uid/:uid'
   ];
   
   funcs.forEach(func => {
