@@ -7,6 +7,7 @@ api.generateFunctions = ({forgotPassword, form, reset}) => {
   const funcs = [
     'post/auth/signup',
     'post/auth/login',
+    'post/auth/admin_login',
     'post/me/update_profile',
     'post/me/update_password',
     'post/users/update',
