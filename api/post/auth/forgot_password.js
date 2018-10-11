@@ -41,7 +41,7 @@ function generateToken(db, { onSuccess, onFailure }) {
 function final(db, { onSuccess, onFailure }) {
   return function(req, res) {
     res.status(200).json({email: req.body.email});
-    onSuccess && onSuccess({token: req.token});
+    onSuccess && onSuccess({email:  req.body.email, token: req.token});
   }
 }
 
