@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 
 const secret = process.env.DELIGATE_KEY_FORGOT_PASSWORD;
 
-function generateToken(db, { onSuccess, onFailure }) {
+function generateToken(db, { onFailure }) {
   return function(req, res, next) {
     const email = req.body.email;
     if (!email) {
