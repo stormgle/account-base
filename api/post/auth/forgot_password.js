@@ -43,14 +43,14 @@ function sendEmailAndResponse(db, {sendEmail}) {
     if (sendEmail) {
       sendEmail({email:  req.body.email, token: req.token}, (err) => {
         if (err) {
-          res.status(200).json({email: ''})
+          res.status(200).json({email: null})
         } else {
           res.status(200).json({email: req.body.email});
         }
       })
     } else {
       console.warn('No SendEmail function. Skipping sending email')
-      res.status(200).json({email: ''})
+      res.status(200).json({email: null})
     }
     
   }
