@@ -20,7 +20,7 @@ const form = ({title, body, script, style}) => `
         <p> Your password should contain lower case, upper case, number and special characters. </p>
         <hr />
       </div>
-      <div class='panel'>
+      <div class='panel' style="max-width: 560px; margin: auto;">
         <h3>Password Reset Form</h3>
         <div id='form'> 
           <div>
@@ -45,7 +45,7 @@ const form = ({title, body, script, style}) => `
           </div>
           <hr />
           <p>
-            <button type='button' onclick="submit()"> Submit </button>
+            <button type='button' onclick="submit()"> Update New Password </button>
           </p>
         </div>
       </div>
