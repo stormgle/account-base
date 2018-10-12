@@ -38,11 +38,22 @@ function generateToken(db, { onSuccess, onFailure }) {
   }
 }
 
-function final(db, { onSuccess, onFailure }) {
-  return function(req, res) {
-    res.status(200).json({email: req.body.email});
-    onSuccess && onSuccess({email:  req.body.email, token: req.token});
+function sendEmailAndResponse(db, {sendEmail}) {
+  return function (req, res) {
+    if (sendEmail) {
+      sendEmail({email:  req.body.email, token: req.token}, (err) => {
+        if (err) {
+          res.status(200).json({email: ''})
+        } else {
+          res.status(200).json({email: req.body.email});
+        }
+      })
+    } else {
+      console.warn('No SendEmail function. Skipping sending email')
+      res.status(200).json({email: ''})
+    }
+    
   }
 }
 
-module.exports = [generateToken, final]
+module.exports = [generateToken, sendEmailAndResponse]
