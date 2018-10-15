@@ -2,7 +2,7 @@
 
 const api = require('express-api-binder')
 
-api.generateFunctions = ({forgotPassword, form, reset, signup}) => {
+api.generateFunctions = ({forgotPassword, form, reset, signup, verifyEmail}) => {
   
   const funcs = [
     'post/auth/login',
@@ -38,15 +38,22 @@ api.generateFunctions = ({forgotPassword, form, reset, signup}) => {
   api.createFunction(
     'post', 
     '/auth/reset_password', 
-    require('../api/post/auth/reset_password'), 
+    require('./post/auth/reset_password'), 
     reset
   )
 
   api.createFunction(
     'post',
     '/auth/signup',
-    require('../api/post/auth/signup'),
+    require('./post/auth/signup'),
     signup
+  )
+
+  api.createFunction(
+    'get',
+    '/auth/0/verify_email',
+    require('./get/auth/0/verify_email'),
+    verifyEmail
   )
 
   return this;
