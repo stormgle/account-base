@@ -46,10 +46,6 @@ function createUser (db) {
   }
 }
 
-function serialize() {
-  return serializeUser
-}
-
 function generateEmailVerifyToken(db, { onFailure }) {
   return function(req, res, next) {
     const user = req.user;
@@ -66,6 +62,10 @@ function generateEmailVerifyToken(db, { onFailure }) {
       onFailure && onFailure({error: 'Bad request: failed to generate email verfify token'});
     }
   }
+}
+
+function serialize() {
+  return serializeUser
 }
 
 function sendEmail(db, { sendEmail }) {
@@ -90,4 +90,4 @@ function final() {
   return success
 }
 
-module.exports = [checkIfNewUser, createUser, generateToken, serialize, generateEmailVerifyToken, sendEmail, final]
+module.exports = [checkIfNewUser, createUser, generateToken, generateEmailVerifyToken, serialize, sendEmail, final]
