@@ -15,12 +15,22 @@ function createUser (db) {
       return;
     }
 
+    let profile = req.body.profile;
+
+    if (!profile) {
+      profile = {} 
+    }
+    if (!profile.email) {
+      profile.email = [username]
+    }
+
     const user = { 
       username, 
       roles: ['user'],
       uid: uuid(), 
       login: { password }, 
-      profile: { email: [username] }
+      profile,
+      verified: false
     }
 
     db.userdb.createUser( user, (err, user) => {
