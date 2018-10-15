@@ -4,11 +4,10 @@ const jwt = require('jsonwebtoken');
 
 const html = require('../../../../client/auth/0/html');
 const style = require('../../../../client/auth/0/style');
-const js = require('../../../../client/auth/0/script');
 
 const secret = process.env.DELIGATE_KEY_VERIFY_EMAIL;
 
-function authen(db, {title, style}) {
+function authen(db, {title}) {
   return function(req, res) {
     const token = req.query.t;
 
