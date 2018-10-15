@@ -73,11 +73,14 @@ function serialize() {
 function sendEmail(db, { sendEmail }) {
   return function (req, res, next) {
     if (sendEmail) {
-      sendEmail({email:  req.user.username, token: req.token})
+      sendEmail({email:  req.user.username, token: req.token}, () => {
+        next()
+      })
     } else {
       console.warn('No SendEmail function. Skipping sending email')
+      next()
     }
-    next()
+    
   }
 }
 
