@@ -73,16 +73,9 @@ function serialize() {
 function sendEmail(db, { sendEmail }) {
   return function (req, res, next) {
     if (sendEmail) {
-      sendEmail({email:  req.user.username, token: req.token}, (err) => {
-        if (err) {
-          res.status(200).json({email: null})
-        } else {
-          res.status(200).json({email: req.user.username});
-        }
-      })
+      sendEmail({email:  req.user.username, token: req.token})
     } else {
       console.warn('No SendEmail function. Skipping sending email')
-      res.status(200).json({email: null})
     }
     next()
   }
