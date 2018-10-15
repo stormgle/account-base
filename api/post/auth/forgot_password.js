@@ -51,8 +51,7 @@ function sendEmailAndResponse(db, {sendEmail}) {
     } else {
       console.warn('No SendEmail function. Skipping sending email')
       res.status(200).json({email: null})
-    }
-    
+    }    
   }
 }
 
