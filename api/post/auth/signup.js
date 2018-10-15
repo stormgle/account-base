@@ -6,6 +6,8 @@ const { generateToken } = require('@stormgle/jtoken-util');
 const { serializeUser, success } = require('../../../lib/serializer');
 const { checkIfNewUser } = require('../../../lib/check');
 
+const secret = process.env.DELIGATE_KEY_VERIFY_EMAIL;
+
 function createUser (db) {
   return function (req, res, next) {
   
