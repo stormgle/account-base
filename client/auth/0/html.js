@@ -128,4 +128,4 @@ failure.verify_email = ({title, style}) => `
 </html>
 `
 
-module.exports = { form, success };
+module.exports = { form, success, failure };
