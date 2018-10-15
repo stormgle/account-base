@@ -49,8 +49,44 @@ function serialize() {
   return serializeUser
 }
 
+function generateEmailVerifyToken(db, { onFailure }) {
+  return function(req, res, next) {
+    const user = req.user;
+    if (user && user.uid) {
+      const token = jwt.sign(
+        {uid: user.uid}, 
+        secret,
+        { expiresIn: "1 days"}
+      );
+      req.token = token;
+      next();
+    } else {
+      res.status(400).json({error: 'Bad request: failed to generate email verfify token'});
+      onFailure && onFailure({error: 'Bad request: failed to generate email verfify token'});
+    }
+  }
+}
+
+function sendEmail(db, { sendEmail }) {
+  return function (req, res, next) {
+    if (sendEmail) {
+      sendEmail({email:  req.user.username, token: req.token}, (err) => {
+        if (err) {
+          res.status(200).json({email: null})
+        } else {
+          res.status(200).json({email: req.user.username});
+        }
+      })
+    } else {
+      console.warn('No SendEmail function. Skipping sending email')
+      res.status(200).json({email: null})
+    }
+    next()
+  }
+}
+
 function final() {
   return success
 }
 
-module.exports = [checkIfNewUser, createUser, generateToken, serialize, final]
+module.exports = [checkIfNewUser, createUser, generateToken, serialize, generateEmailVerifyToken, sendEmail, final]
