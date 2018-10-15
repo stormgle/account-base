@@ -1,6 +1,7 @@
 "use strict"
 
 const uuid = require('uuid/v1');
+const jwt = require('jsonwebtoken')
 const { generateToken } = require('@stormgle/jtoken-util');
 const { serializeUser, success } = require('../../../lib/serializer');
 const { checkIfNewUser } = require('../../../lib/check');
