@@ -8,7 +8,7 @@ const style = require('../../../../client/auth/0/style');
 const secret = process.env.DELIGATE_KEY_VERIFY_EMAIL;
 
 function authen(db, {title}) {
-  return function(req, res) {
+  return function(req, res, next) {
     const token = req.query.t;
 
     if (!token) {
@@ -18,12 +18,26 @@ function authen(db, {title}) {
 
     jwt.verify(token, secret, function(err, decoded) {
       if (err) {
-        res.status(200).send(html.success.verify_email({title, style}));
-      } else {
         res.status(200).send(html.failure.verify_email({title, style}));
+      } else {
+        req.user = decoded
+        next()
       }
     });
   }
 }
 
-module.exports = [authen]
+function activateUserAccount(db, {title}) {
+  return function(req, res) {
+    const uid = req.user.uid;
+    db.userdb.update(uid, { verified: true }, (err, data) => {
+      if (err) {
+        res.status(403).json(err)
+      } else {
+        res.status(200).send(html.success.verify_email({title, style}));
+      }
+    })
+  }
+}
+
+module.exports = [authen, activateUserAccount]
