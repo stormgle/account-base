@@ -49,11 +49,20 @@ api.generateFunctions = ({forgotPassword, form, reset, signup, verifyEmail}) => 
     signup
   )
 
+  /* this function verify email and activate user status from verify email link */
   api.createFunction(
     'get',
     '/auth/0/verify_email',
     require('./get/auth/0/verify_email'),
     verifyEmail
+  )
+
+  /* this function send an email thata contain link to verify email owner*/
+  api.createFunction(
+    'post',
+    '/auth/send_verify_email',
+    require('./post/auth/send_verify_email'),
+    send_verifyEmail
   )
 
   return this;
