@@ -1,6 +1,6 @@
 {
   "name": "@stormgle/account-base",
-  "version": "2.3.22",
+  "version": "2.3.23",
   "description": "micro-service for managing accounts",
   "main": "api/main.js",
   "scripts": {
