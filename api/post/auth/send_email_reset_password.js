@@ -43,17 +43,18 @@ function generateToken(db, { onFailure }) {
 
 function sendEmailAndResponse(db, {title, sendEmail}) {
   return function (req, res) {
+    const email = req.body.email;
     if (sendEmail) {
-      sendEmail({email:  req.body.email, token: req.token}, (err) => {
+      sendEmail({email, token: req.token}, (err) => {
         if (err) {
-          res.status(200).send(html.sendEmailResetPassword.success({title, email, style}));
-        } else {
           res.status(200).send(html.sendEmailResetPassword.failure({title, email, style}));
+        } else {
+          res.status(200).send(html.sendEmailResetPassword.success({title, email, style}));
         }
       })
     } else {
       console.warn('No SendEmail function. Skipping sending email')
-      res.status(200).send(html.sendEmailResetPassword.success({title, email, style}));
+      res.status(200).send(html.sendEmailResetPassword.failure({title, email, style}));
     }    
   }
 }
