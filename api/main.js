@@ -65,6 +65,14 @@ api.generateFunctions = ({forgotPassword, form, reset, signup, verifyEmail, send
     sendVerifyEmail
   )
 
+  /* this function indicate to user that email is verified successful*/
+  api.createFunction(
+    'get',
+    '/auth/verified_email',
+    require('./post/auth/verified_email'),
+    sendVerifyEmail
+  )
+
   return this;
 }
 
