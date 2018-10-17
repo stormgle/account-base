@@ -146,7 +146,7 @@ requestResetPasswordLink.success = ({title, email, script, style}) => `
       <div class='intro'>
         <p> We will send Reset Password Link to the following email </p>
       </div>
-      <p style="border: solid 1px #aaa; display: inline-block; padding 8px 16px"> ${email} </p>
+      <p style="border: solid 1px #aaa; display: inline-block; padding: 8px 16px"> ${email} </p>
       <p>
         <button type='button' onclick="submit()"> Send Reset Password Link </button>
       </p>
