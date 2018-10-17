@@ -81,20 +81,6 @@ api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, 
     sendEmailResetPassword
   )
 
-  api.createFunction(
-    'get',
-    '/auth/email_reset_password_delivered',
-    require('./get/auth/email_reset_password_delivered'),
-    emailProps
-  )
-
-  api.createFunction(
-    'get',
-    '/auth/email_reset_password_failed',
-    require('./get/auth/email_reset_password_failed'),
-    emailProps
-  )
-
   return this;
 }
 
