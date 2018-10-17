@@ -34,7 +34,6 @@ function activateUserAccount(db, {title}) {
       if (err) {
         res.status(403).json(err)
       } else {
-        // res.status(200).send(html.success.verify_email({title, style}));
         res.redirect('/auth/verified_email')
       }
     })

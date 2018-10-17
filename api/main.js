@@ -69,8 +69,8 @@ api.generateFunctions = ({forgotPassword, form, reset, signup, verifyEmail, send
   api.createFunction(
     'get',
     '/auth/verified_email',
-    require('./post/auth/verified_email'),
-    sendVerifyEmail
+    require('./get/auth/0/verified_email'),
+    verifyEmail
   )
 
   return this;
