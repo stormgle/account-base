@@ -28,11 +28,11 @@ function authen() {
   }
 }
 
-function renderHTML(db, {title, body, endPoint}) {
+function renderHTML(db, {title, endPoint}) {
   return function(req, res) {
     const token = req.query.t;
     const script = js.form({token, endPoint});
-    res.status(200).send(html.form({ title, body, style, script }))
+    res.status(200).send(html.form({ title, style, script }))
   }
 }
 

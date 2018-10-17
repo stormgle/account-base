@@ -1,6 +1,6 @@
 "use strict"
 
-const form = ({title, body, script, style}) => `
+const form = ({title, script, style}) => `
 <!DOCTYPE html>
 <html>
   <head>
