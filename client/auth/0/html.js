@@ -181,7 +181,7 @@ requestResetPasswordLink.failure = ({title, style}) => `
 
 const sendEmailResetPassword = {}
 
-sendEmailResetPassword.success = (email) => `
+sendEmailResetPassword.success = ({title, style}) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -196,14 +196,14 @@ sendEmailResetPassword.success = (email) => `
     </header>
     <div class='container' id='success'>
       <div class='intro'>
-        <p> Reset Password Link has been sent to ${email} </p>
+        <p> Reset Password Link has been sent to your email </p>
       </div>
     </div>
   </body>
 </html>
 `
 
-sendEmailResetPassword.failure = (email) => `
+sendEmailResetPassword.failure = ({title, style}) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -218,7 +218,7 @@ sendEmailResetPassword.failure = (email) => `
     </header>
     <div class='container' id='failure'>
       <div class='intro'>
-        <p> Failed to send email to ${email} </p>
+        <p> Failed to send email </p>
       </div>
     </div>
   </body>

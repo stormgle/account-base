@@ -2,7 +2,7 @@
 
 const api = require('express-api-binder')
 
-api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, verifyEmail, sendVerifyEmail, requestResetPasswordLink}) => {
+api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, emailProps, sendVerifyEmail, requestResetPasswordLink}) => {
   
   const funcs = [
     'post/auth/login',
@@ -46,7 +46,7 @@ api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, 
     'get',
     '/auth/verify_email',
     require('./get/auth/verify_email'),
-    verifyEmail
+    emailProps
   )
 
   /* this function send an email that contain link to verify email owner*/
@@ -62,7 +62,7 @@ api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, 
     'get',
     '/auth/verified_email',
     require('./get/auth/verified_email'),
-    verifyEmail
+    emailProps
   )
 
   /* this function return html page for request send mail reset password*/
@@ -79,6 +79,20 @@ api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, 
     '/auth/send_email_reset_password', 
     require('./post/auth/send_email_reset_password'), 
     sendEmailResetPassword
+  )
+
+  api.createFunction(
+    'get',
+    '/auth/email_reset_password_delivered',
+    require('./get/auth/email_reset_password_delivered'),
+    emailProps
+  )
+
+  api.createFunction(
+    'get',
+    '/auth/email_reset_password_failed',
+    require('./get/auth/email_reset_password_failed'),
+    emailProps
   )
 
   return this;

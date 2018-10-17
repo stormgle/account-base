@@ -43,14 +43,14 @@ function sendEmailAndResponse(db, {sendEmail}) {
     if (sendEmail) {
       sendEmail({email:  req.body.email, token: req.token}, (err) => {
         if (err) {
-          res.status(200).send(html.sendEmailResetPassword.failure(email));
+          res.redirect('/auth/email_reset_password_failed')
         } else {
-          res.status(200).send(html.sendEmailResetPassword.success(email));
+          res.redirect('/auth/email_reset_password_delivered')
         }
       })
     } else {
       console.warn('No SendEmail function. Skipping sending email')
-      res.status(200).send(html.sendEmailResetPassword.failure(email));
+      res.redirect('/auth/email_reset_password_failed')
     }    
   }
 }
