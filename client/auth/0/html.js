@@ -147,7 +147,6 @@ requestResetPasswordLink.success = ({title, email, script, style}) => `
       <div class='intro'>
         <p> We will send Reset Password Link to the following email </p>
       </div>
-      <hr />
       <p> ${email} </p>
       <p>
         <button type='button' onclick="submit()"> Send Reset Password Link </button>
@@ -180,4 +179,4 @@ requestResetPasswordLink.failure = ({title, style}) => `
 </html>
 `
 
-module.exports = { form, success, failure };
+module.exports = { form, success, failure, requestResetPasswordLink };

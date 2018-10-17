@@ -9,13 +9,13 @@ function render(db, {title, endPoint}) {
   return function(req, res) {
     const email = req.query.email;
     if (email && email.length > 0) {
-      db.userdb.queryUser({ username }, ((err, user) => {
+      db.userdb.queryUser({ username: email }, ((err, user) => {
         if (err) {
           res.status(400).send();
         } else {
           if (user) {
             const script = js.requestResetPasswordLink ({ email, endPoint });
-            res.status(200).send(html.requestResetPasswordLink.success({title, script, style}));
+            res.status(200).send(html.requestResetPasswordLink.success({title, email, script, style}));
           } else {
             res.status(200).send(html.requestResetPasswordLink.failure({title, style}));
           }

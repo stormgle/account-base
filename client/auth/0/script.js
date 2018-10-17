@@ -89,7 +89,7 @@ const form = ({ token, endPoint }) => `
 `
 const requestResetPasswordLink = ({ email, endPoint }) => `
   function submit() {
-    post(${email}, function(err, data) {
+    post('${email}', function(err, data) {
       if (err) {
         console.log(err)
       } else {
