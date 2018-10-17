@@ -18,7 +18,7 @@ function authen(db, {title}) {
 
     jwt.verify(token, secret, function(err, decoded) {
       if (err) {
-        res.status(200).send(html.failure.verify_email({title, style}));
+        res.status(200).send(html.verifyEmail.failure({title, style}));
       } else {
         req.user = decoded
         next()

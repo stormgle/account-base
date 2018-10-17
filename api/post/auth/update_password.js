@@ -21,7 +21,7 @@ function update(db, {title, service, redirect}) {
         if (err) {
           res.status(403).send();
         } else {
-          res.status(200).send(html.success.reset_password({title, service, redirect, style}));
+          res.status(200).send(html.resetPassword.success({title, service, redirect, style}));
         }
       })
     } else {

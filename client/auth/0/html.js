@@ -54,9 +54,9 @@ const form = ({title, script, style}) => `
   </body>
 </html>
 `
-const success = {}
+const resetPassword = {}
 
-success.reset_password = ({title, service, redirect, style}) => `
+resetPassword.success = ({title, service, redirect, style}) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -78,8 +78,9 @@ success.reset_password = ({title, service, redirect, style}) => `
   </body>
 </html>
 `
+const verifyEmail = {}
 
-success.verify_email = ({title, style}) => `
+verifyEmail.success = ({title, style}) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -102,9 +103,7 @@ success.verify_email = ({title, style}) => `
 </html>
 `
 
-const failure = {}
-
-failure.verify_email = ({title, style}) => `
+verifyEmail.failure = ({title, style}) => `
 <!DOCTYPE html>
 <html>
   <head>
@@ -225,4 +224,4 @@ sendEmailResetPassword.failure = ({title, email, style}) => `
 </html>
 `
 
-module.exports = { form, success, failure, requestResetPasswordLink, sendEmailResetPassword };
+module.exports = { form, resetPassword, verifyEmail, requestResetPasswordLink, sendEmailResetPassword };
