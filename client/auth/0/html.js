@@ -128,4 +128,56 @@ failure.verify_email = ({title, style}) => `
 </html>
 `
 
+const requestResetPasswordLink = {}
+
+requestResetPasswordLink.success = ({title, email, script, style}) => `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title}</title>
+    <style>${style}</style>
+  </head>
+  <body>
+    <header>
+      <h2>${title}</h2>
+    </header>
+    <div class='container' id='success'>
+      <div class='intro'>
+        <p> We will send Reset Password Link to the following email </p>
+      </div>
+      <hr />
+      <p> ${email} </p>
+      <p>
+        <button type='button' onclick="submit()"> Send Reset Password Link </button>
+      </p>
+    </div>
+    <script>${script}</script>
+  </body>
+</html>
+`
+
+requestResetPasswordLink.failure = ({title, style}) => `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title}</title>
+    <style>${style}</style>
+  </head>
+  <body>
+    <header>
+      <h2>${title}</h2>
+    </header>
+    <div class='container' id='failure'>
+      <div class='intro'>
+        <p> Email: ${email} is not registered as an account in our system </p>
+      </div>
+    </div>
+  </body>
+</html>
+`
+
 module.exports = { form, success, failure };

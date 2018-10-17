@@ -52,12 +52,12 @@ api.generateFunctions = ({forgotPassword, form, updatePassword, signup, verifyEm
   /* this function verify email and activate user status from verify email link */
   api.createFunction(
     'get',
-    '/auth/0/verify_email',
-    require('./get/auth/0/verify_email'),
+    '/auth/verify_email',
+    require('./get/auth/verify_email'),
     verifyEmail
   )
 
-  /* this function send an email thata contain link to verify email owner*/
+  /* this function send an email that contain link to verify email owner*/
   api.createFunction(
     'post',
     '/auth/send_verify_email',
@@ -69,8 +69,16 @@ api.generateFunctions = ({forgotPassword, form, updatePassword, signup, verifyEm
   api.createFunction(
     'get',
     '/auth/verified_email',
-    require('./get/auth/0/verified_email'),
+    require('./get/auth/verified_email'),
     verifyEmail
+  )
+
+  /* this function return html page for request send mail reset password*/
+  api.createFunction(
+    'get',
+    '/auth/request_reset_password_link',
+    require('./get/auth/request_reset_password_link'),
+    requestResetPasswordLink
   )
 
   return this;

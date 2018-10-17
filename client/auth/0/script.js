@@ -87,5 +87,32 @@ const form = ({ token, endPoint }) => `
     }
   }
 `
+const requestResetPasswordLink = ({ email, endPoint }) => `
+  function submit() {
+    post(${email}, function(err, data) {
+      if (err) {
+        console.log(err)
+      } else {
+        document.body.innerHTML = data
+      }
+    })
+  }
+  function post(data, callback) {
+    var request = new XMLHttpRequest()
+    request.open('POST', '${endPoint}', true)
+    request.setRequestHeader('Content-Type', 'application/json')
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        callback(null, request.responseText)
+      } else {
+        callback({
+          status: request.status,
+          err: request.responseText
+        }, null);
+      }
+    }
+    request.send(JSON.stringify({email:data}))
+  }
+`
 
-module.exports = { form }
+module.exports = { form, requestResetPasswordLink }
