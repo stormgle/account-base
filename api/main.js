@@ -2,7 +2,7 @@
 
 const api = require('express-api-binder')
 
-api.generateFunctions = ({forgotPassword, form, updatePassword, signup, verifyEmail, sendVerifyEmail, requestResetPasswordLink}) => {
+api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, verifyEmail, sendVerifyEmail, requestResetPasswordLink}) => {
   
   const funcs = [
     'post/auth/login',
@@ -20,14 +20,6 @@ api.generateFunctions = ({forgotPassword, form, updatePassword, signup, verifyEm
     api.createFunction(method, uri, require(`./${includePath}`))
   }) 
   
-  api.createFunction(
-    'post', 
-    '/auth/forgot_password', 
-    require('./post/auth/forgot_password'), 
-    forgotPassword
-  )
-  
-
   api.createFunction(
     'get', 
     '/auth/0/form', 
@@ -79,6 +71,14 @@ api.generateFunctions = ({forgotPassword, form, updatePassword, signup, verifyEm
     '/auth/request_reset_password_link',
     require('./get/auth/request_reset_password_link'),
     requestResetPasswordLink
+  )
+
+  /* this function send mail reset password*/
+  api.createFunction(
+    'post', 
+    '/auth/send_email_reset_password', 
+    require('./post/auth/send_email_reset_password'), 
+    sendEmailResetPassword
   )
 
   return this;

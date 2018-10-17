@@ -179,4 +179,50 @@ requestResetPasswordLink.failure = ({title, style}) => `
 </html>
 `
 
-module.exports = { form, success, failure, requestResetPasswordLink };
+const sendEmailResetPassword = {}
+
+sendEmailResetPassword.success = (email) => `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title}</title>
+    <style>${style}</style>
+  </head>
+  <body>
+    <header>
+      <h2>${title}</h2>
+    </header>
+    <div class='container' id='success'>
+      <div class='intro'>
+        <p> Reset Password Link has been sent to ${email} </p>
+      </div>
+    </div>
+  </body>
+</html>
+`
+
+sendEmailResetPassword.failure = (email) => `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title}</title>
+    <style>${style}</style>
+  </head>
+  <body>
+    <header>
+      <h2>${title}</h2>
+    </header>
+    <div class='container' id='failure'>
+      <div class='intro'>
+        <p> Failed to send email to ${email} </p>
+      </div>
+    </div>
+  </body>
+</html>
+`
+
+module.exports = { form, success, failure, requestResetPasswordLink, sendEmailResetPassword };
