@@ -111,7 +111,7 @@ const style = `
   .green {
     background-color: #4CAF50!important;
   }
-  #err {
+  .err {
     color: white;
   }
 `

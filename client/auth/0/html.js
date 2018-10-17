@@ -40,7 +40,8 @@ const form = ({title, script, style}) => `
             <label>Retype your password</label>
             <input type='password' id='retype' onkeyup="clearTxt()"/>
             <div class='msg'>
-              <div id='err'>Password mismatch</div>
+              <div id='err1' class='err'>Password mismatch</div>
+              <div id='err2' class='err'>Password must not be empty</div>
             </div>
           </div>
           <hr />
@@ -78,6 +79,29 @@ resetPassword.success = ({title, service, redirect, style}) => `
   </body>
 </html>
 `
+
+resetPassword.failure = ({title, style}) => `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title}</title>
+    <style>${style}</style>
+  </head>
+  <body>
+    <header>
+      <h2>${title}</h2>
+    </header>
+    <div class='container' id='success'>
+      <div class='intro'>
+        <p> Error found when trying to update new password </p>
+      </div>
+    </div>
+  </body>
+</html>
+`
+
 const verifyEmail = {}
 
 verifyEmail.success = ({title, style}) => `

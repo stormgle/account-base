@@ -19,7 +19,8 @@ function update(db, {title, service, redirect}) {
     if (login && login.password) {
       db.userdb.update(uid, { login }, (err, data) => {
         if (err) {
-          res.status(403).send();
+          console.log(err)
+          res.status(200).send(html.resetPassword.failure({title, style}));
         } else {
           res.status(200).send(html.resetPassword.success({title, service, redirect, style}));
         }

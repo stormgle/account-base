@@ -2,6 +2,8 @@
 
 const form = ({ token, endPoint }) => `
   function submit() {
+    $('err1').setAttribute("style", "color:white")
+    $('err2').setAttribute("style", "color:white")
     if (check()) {
       post($('pwd').value, function(err, data) {
         if (err) {
@@ -11,14 +13,17 @@ const form = ({ token, endPoint }) => `
         }
       })
     } else {
-      $('err').setAttribute("style", "color:#f44336")
+      if ( $('pwd').value.length > 0)
+        $('err1').setAttribute("style", "color:#f44336")
+      else
+        $('err2').setAttribute("style", "color:#f44336")
     }
   }
   function $(id) {
     return document.getElementById(id)
   }
   function check() {
-    return $('pwd').value === $('retype').value
+    return $('pwd').value.length > 0 && $('pwd').value === $('retype').value
   }
   function post(data, callback) {
     var request = new XMLHttpRequest()
@@ -83,7 +88,7 @@ const form = ({ token, endPoint }) => `
   }
   function clearTxt() {
     if ($('retype').value.length === 0) {
-      $('err').setAttribute("style", "color:white")
+      $('err1').setAttribute("style", "color:white")
     }
   }
 `
