@@ -38,19 +38,19 @@ function generateToken(db, { onFailure }) {
   }
 }
 
-function sendEmailAndResponse(db, {sendEmail}) {
+function sendEmailAndResponse(db, {title, sendEmail}) {
   return function (req, res) {
     if (sendEmail) {
       sendEmail({email:  req.body.email, token: req.token}, (err) => {
         if (err) {
-          res.redirect('/auth/email_reset_password_failed')
+          res.status(200).send(html.sendEmailResetPassword.success({title, email, style}));
         } else {
-          res.redirect('/auth/email_reset_password_delivered')
+          res.status(200).send(html.sendEmailResetPassword.failure({title, email, style}));
         }
       })
     } else {
       console.warn('No SendEmail function. Skipping sending email')
-      res.redirect('/auth/email_reset_password_failed')
+      res.status(200).send(html.sendEmailResetPassword.success({title, email, style}));
     }    
   }
 }
