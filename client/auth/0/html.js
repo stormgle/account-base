@@ -180,7 +180,7 @@ requestResetPasswordLink.success = ({title, email, script, style}) => `
 </html>
 `
 
-requestResetPasswordLink.failure = ({title, style}) => `
+requestResetPasswordLink.failure = ({title, email, style}) => `
 <!DOCTYPE html>
 <html>
   <head>

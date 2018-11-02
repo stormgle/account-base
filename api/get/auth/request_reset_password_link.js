@@ -17,7 +17,7 @@ function render(db, {title, endPoint}) {
             const script = js.requestResetPasswordLink ({ email, endPoint });
             res.status(200).send(html.requestResetPasswordLink.success({title, email, script, style}));
           } else {
-            res.status(200).send(html.requestResetPasswordLink.failure({title, style}));
+            res.status(200).send(html.requestResetPasswordLink.failure({title, email, style}));
           }
         }
       }))    
