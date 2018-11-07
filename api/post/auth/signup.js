@@ -26,6 +26,11 @@ function createUser (db) {
     if (!profile.email) {
       profile.email = [username]
     }
+    if (profile.gender && profile.gender === 'female') {
+      profile.picture = process.env.DEFAULT_FEMALE_PICTURE
+    } else {
+      profile.picture = process.env.DEFAULT_MALE_PICTURE
+    }
 
     const user = { 
       username, 
