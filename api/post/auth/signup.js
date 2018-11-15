@@ -26,6 +26,14 @@ function createUser (db) {
     if (!profile.email) {
       profile.email = [username.toLowerCase().trim()]
     }
+
+    // fix issue of empty field
+    for (let prop in profile) {
+      if (typeof profile[prop] === 'string' && profile[prop].length === 0) {
+        profile[prop]  = 'N/A'
+      }
+    }
+
     if (profile.gender && profile.gender === 'female') {
       profile.picture = process.env.DEFAULT_FEMALE_PICTURE
     } else {

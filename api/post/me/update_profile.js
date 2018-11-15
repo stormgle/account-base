@@ -9,6 +9,12 @@ function update(db) {
     const uid = req.user.uid;
     const profile = req.body.profile;
     if (typeof profile === 'object' && Object.keys(profile).length > 0) {
+      // fix issue of empty field
+      for (let prop in profile) {
+        if (typeof profile[prop] === 'string' && profile[prop].length === 0) {
+          profile[prop]  = 'N/A'
+        }
+      }
       if (profile.email && profile.email.length > 0) {
         profile.email = profile.email.map( email => email.toLowerCase().trim())
       }
