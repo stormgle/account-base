@@ -2,7 +2,7 @@
 
 function queryUser(db) {
   return function (req, res, next) {
-    const username = req.body.username;
+    const username = req.body.username.toLowerCase().trim();
 
     if (username && username.length > 0) {
       db.userdb.queryUser({ username }, ((err, user) => {
