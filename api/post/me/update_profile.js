@@ -9,6 +9,9 @@ function update(db) {
     const uid = req.user.uid;
     const profile = req.body.profile;
     if (typeof profile === 'object' && Object.keys(profile).length > 0) {
+      if (profile.email && profile.email.length > 0) {
+        profile.email = profile.email.map( email => email.toLowerCase().trim())
+      }
       db.userdb.update(uid, { profile }, (err, data) => {
         if (err) {
           res.status(403).json(err)

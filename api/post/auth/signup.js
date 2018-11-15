@@ -24,7 +24,7 @@ function createUser (db) {
       profile = {} 
     }
     if (!profile.email) {
-      profile.email = [username]
+      profile.email = [username.toLowerCase().trim()]
     }
     if (profile.gender && profile.gender === 'female') {
       profile.picture = process.env.DEFAULT_FEMALE_PICTURE
@@ -33,7 +33,7 @@ function createUser (db) {
     }
 
     const user = { 
-      username, 
+      username: username.toLowerCase().trim(), 
       roles: ['user'],
       uid: uuid(), 
       login: { password }, 
