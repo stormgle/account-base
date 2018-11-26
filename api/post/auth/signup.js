@@ -46,7 +46,8 @@ function createUser (db) {
       uid: uuid(), 
       login: { password }, 
       profile,
-      verified: false
+      verified: false,
+      testResults: {}
     }
 
     db.userdb.createUser( user, (err, user) => {
