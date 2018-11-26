@@ -2,11 +2,11 @@
 
 const { verifyToken } = require('@stormgle/jtoken-util')
 
-const secret = process.env.AUTH_KEY_ACCOUNT;
+const secret = process.env.DELIGATE_KEY_ADMIN_SERVER;
 
 function update(db) {
   return function(req, res) {
-    const uid = req.user.uid;
+    const uid = req.params.uid;
     const testResults = req.body.testResults;
     if (typeof testResults === 'object' && Object.keys(testResults).length > 0) {
       db.userdb.update(uid, { testResults }, (err, data) => {

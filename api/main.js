@@ -9,6 +9,7 @@ api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, 
     'post/auth/admin_login',
     'post/me/update_profile',
     'post/me/update_password',
+    'post/me/update_progress',
     'post/users/update',
     'post/check/user',
     'get/users/:username',
@@ -78,6 +79,14 @@ api.generateFunctions = ({sendEmailResetPassword, form, updatePassword, signup, 
     'post', 
     '/auth/send_email_reset_password', 
     require('./post/auth/send_email_reset_password'), 
+    sendEmailResetPassword
+  )
+
+   /* this function update user test results*/
+   api.createFunction(
+    'post', 
+    '/users/:uid/test_results', 
+    require('./post/user/uid/test_results'), 
     sendEmailResetPassword
   )
 
